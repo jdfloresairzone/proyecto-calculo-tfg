@@ -1,3 +1,6 @@
+import { DropDown } from "./DropDown";
+import { Icon, IconData } from "./Icon/Icon";
+
 
 export default function Header() {
 return (
@@ -10,56 +13,17 @@ return (
             </a>
         </figure>
 
-          <DropDown
+        <DropDown
             trigger={
-              <div className="text-primary-900 border-primary-900 flex shrink-0 items-center rounded-lg border p-2">
-                {isLogged && avatar != undefined && avatar != "" ? (
-                  <img className="mr-1 h-5 w-5 rounded-full" src={avatar} alt={`${session.user?.name} - avatar`}></img>
-                ) : (
+              <div className="text-primary-900 border-primary-900 flex shrink-0 items-center rounded-lg border p-2 mt-8">
                   <Icon name={IconData.profileSolid} size={28} />
-                )}
-                {isLogged ? (
-                  <span className="pl-2">{`${translate("menuHeader.formLogin.greet")}${session.user.name}`}</span>
-                ) : (
+                  <span className="pl-2">Hola, Homer</span>
                   <></>
-                )}
               </div>
             }
             align="left"
-            isDisplayed={loginIsDisplayed} // Por aquí pasa el estado del padre al hijo
-            onDisplayChange={setLoginIsDisplayed}
           >
-            <div className="max-w-screen sm:w-116 absolute right-0 top-4 w-screen px-4 pt-4 sm:p-0">
-              {isLogged ? (
-                <MenuProfile
-                  groups={groups}
-                  logoutText={translate("menuHeader.logout")}
-                  onLogout={handleLogout}
-                  isLoading={isLoading}
-                  onClose={() => setLoginIsDisplayed(false)}
-                />
-              ) : (
-                <Login
-                  emailLabel={translate("menuHeader.formLogin.email")}
-                  forgotPasswordLink={`${process.env.NEXT_PUBLIC_AZC_LOGIN_URL}es/password/reset`}
-                  forgotPasswordText={translate("menuHeader.formLogin.reset")}
-                  loginText={translate("menuHeader.formLogin.login")}
-                  onSubmit={handleLogin}
-                  passwordLabel={translate("menuHeader.formLogin.password")}
-                  rememberLabel={translate("menuHeader.formLogin.remember")}
-                  signUpLink={azcPath + "/register/"}
-                  signUpText={translate("menuHeader.formLogin.create")}
-                  isLoading={isLoading}
-                  onClose={() => setLoginIsDisplayed(false)}
-                  isFixed
-                  requiredTranslation={translate("form.validation.required")}
-                  emailTranslation={translate("form.validation.email")}
-                />
-              )}
-            </div>
           </DropDown>
-          <LanguageSelector value={language} options={availableLanguages} onChange={handleLanguageChange} />
-        </div>
       </div>
     </div>
   )
