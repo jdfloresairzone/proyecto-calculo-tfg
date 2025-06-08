@@ -57,7 +57,7 @@ export const DropDown: React.FC<Props> = ({
   }
 
   return (
-    <div className={align === "auto" ? "relative flex w-full justify-center lg:justify-end " : "sm:relative"}>
+    <div className={align === "auto" ? "relative flex w-full justify-center lg:justify-end pr-12" : "sm:relative pr-12"}>
       <div onClick={() => handleUpdateDisplay(true)} className="cursor-pointer">
         {trigger}
       </div>
