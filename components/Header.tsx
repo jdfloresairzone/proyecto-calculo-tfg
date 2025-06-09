@@ -1,30 +1,104 @@
-import { DropDown } from "./DropDown";
-import { Icon, IconData } from "./Icon/Icon";
-
+import { Search, User, ChevronDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 export default function Header() {
-return (
-    <div className="h-24 w-full bg-white lg:relative">
-      <div className="container mx-auto flex h-full justify-between lg:gap-10">
-        
-        <figure className="flex items-center justify-center p-12 lg:flex-none">
-            <a href="https://airzonecontrol/ib/es/" target="_self">
-                  <img src="https://res.cloudinary.com/airzone/image/upload/v1707306077/images/airzone.svg" alt="Airzone logo" width={200} height={50} />
-            </a>
-        </figure>
+  return (
+    <header className="w-full bg-white border-b border-gray-200">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-4 lg:px-2 h-16 flex items-center justify-between">
 
-        <DropDown
-            trigger={
-              <div className="text-primary-900 border-primary-900 flex shrink-0 items-center rounded-lg border p-2 mt-8">
-                  <Icon name={IconData.profileSolid} size={28} />
-                  <span className="pl-2">Hola, Homer</span>
-                  <></>
-              </div>
-            }
-            align="left"
-          >
-          </DropDown>
-      </div>
-    </div>
+          {/* Logo a la izquierda */}
+          <div className="flex items-center">
+            <figure className="flex items-center justify-center p-5 lg:flex-none">
+              <a href="https://airzonecontrol/ib/es/" target="_self">
+                <img
+                  src="https://res.cloudinary.com/airzone/image/upload/v1707306077/images/airzone.svg"
+                  alt="Airzone logo"
+                  width={200}
+                  height={50}
+                />
+              </a>
+            </figure>
+          </div>
+
+          {/* Navigation Menu */}
+          <nav className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-8">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 text-sm font-medium">
+                <span>SOLUCIONES DE CONTROL</span>
+                <ChevronDown className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Control Systems</DropdownMenuItem>
+                <DropdownMenuItem>Smart Controls</DropdownMenuItem>
+                <DropdownMenuItem>Automation</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 text-sm font-medium">
+                <span>PROYECTOS</span>
+                <ChevronDown className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Residential</DropdownMenuItem>
+                <DropdownMenuItem>Commercial</DropdownMenuItem>
+                <DropdownMenuItem>Industrial</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <a href="#" className="text-gray-700 hover:text-gray-900 text-sm font-medium">
+              SOPORTE
+            </a>
+
+            <a href="#" className="text-gray-700 hover:text-gray-900 text-sm font-medium">
+              ACADEMY
+            </a>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 text-sm font-medium">
+                <span>COMPRAR</span>
+                <ChevronDown className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Online Store</DropdownMenuItem>
+                <DropdownMenuItem>Distributors</DropdownMenuItem>
+                <DropdownMenuItem>Request Quote</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 text-sm font-medium">
+                <span>CONTACTO</span>
+                <ChevronDown className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Contact Form</DropdownMenuItem>
+                <DropdownMenuItem>Office Locations</DropdownMenuItem>
+                <DropdownMenuItem>Support</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </nav>
+
+          {/* Right Side Actions */}
+          <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="sm" className="p-2">
+                  <Search className="w-5 h-5 text-gray-600" />
+                </Button>
+
+                <Button variant="ghost" size="sm" className="p-2">
+                  <User className="w-5 h-5 text-gray-600" />
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-sm font-medium border-gray-300 text-gray-700 hover:bg-gray-50"
+                >
+                  INICIAR SESIÓN
+                </Button>
+          </div>
+        </div>
+    </header>
   )
 }
