@@ -41,20 +41,20 @@ export default function SystemConfigForm() {
 
       <div className="w-full bg-gray-100 py-6 rounded-2xl">
         <div className="pl-6">
-          <h1 className="text-3xl md:text-4xl font-medium text-[#007297]">Herramienta de presupuestos</h1>
-          <p className="mt-2 text-lg font-semibold">Proyecto de cálculo</p>
+          <h1 className="text-2xl md:text-3xl font-medium text-[#007297]">Herramienta de presupuestos</h1>
+          <p className="mt-2 text-lg text-gray-700 font-semibold">Proyecto de cálculo</p>
         </div>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-teal-500">Presupuesto</CardTitle>
-          <CardTitle className="text-teal-500">Datos generales</CardTitle>
+          <CardTitle className="text-[#007297]">Presupuesto</CardTitle>
+          <CardTitle className="text-[#007297]">Datos generales</CardTitle>
         </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
                   <Label htmlFor="system-name" className="text-blue-600">
-                    Direccion
+                    Dirección
                   </Label>
                   <Select>
                     <SelectTrigger className="w-full h-12 border-gray-200 bg-gray-50">
@@ -70,7 +70,7 @@ export default function SystemConfigForm() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="agente" className="text-teal-600 font-medium">
+                  <Label htmlFor="agente" className="text-blue-600 font-medium">
                     Agente
                   </Label>
                   <Select>
@@ -87,7 +87,7 @@ export default function SystemConfigForm() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="referencia" className="text-teal-600 font-medium">
+                  <Label htmlFor="referencia" className="text-blue-600 font-medium">
                     Referencia presupuesto cliente
                   </Label>
                   <Input
@@ -101,7 +101,7 @@ export default function SystemConfigForm() {
           </CardContent>
 
           <div className="flex justify-end pr-6">
-            <Button className="bg-teal-600 hover:bg-teal-700" onClick={() => setCurrentStep(2)}>
+            <Button className="bg-[#377f97] hover:bg-[#007297]" onClick={() => setCurrentStep(2)}>
               PROCEDER
             </Button>
           </div>
@@ -110,7 +110,7 @@ export default function SystemConfigForm() {
       <Tabs defaultValue="sistema1" className={currentStep === 1 ? "opacity-50 pointer-events-none w-full" : "w-full"}>
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="sistema1">Sistema 1</TabsTrigger>
-          <TabsTrigger value="aggiungi">Añadir sistema</TabsTrigger>
+          <TabsTrigger value="aggiungi">Añadir nuevo sistema</TabsTrigger>
         </TabsList>
 
         <TabsContent value="sistema1" className="space-y-6">
@@ -155,7 +155,7 @@ export default function SystemConfigForm() {
               </div>
 
               <div className="flex justify-end">
-                <Button className="bg-teal-600 hover:bg-teal-700" onClick={() => setCurrentStep(3)}>
+                <Button className="bg-[#377f97] hover:bg-[#007297]" onClick={() => setCurrentStep(3)}>
                   PROCEDER
                 </Button>
               </div>
@@ -164,7 +164,7 @@ export default function SystemConfigForm() {
 
           <Card className={currentStep === 2 ? "opacity-50 pointer-events-none" : ""}>
             <CardHeader>
-              <CardTitle className="text-teal-500">Zona 1</CardTitle>
+              <CardTitle className="text-[#007297]">Zona 1</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -385,7 +385,7 @@ export default function SystemConfigForm() {
           </Card>
 
           <div className="flex justify-end">
-            <Button className="bg-teal-600 hover:bg-teal-700">AÑADIR SISTEMA</Button>
+            <Button className="bg-[#377f97] hover:bg-[#007297]">AÑADIR SISTEMA</Button>
           </div>
         </TabsContent>
 
