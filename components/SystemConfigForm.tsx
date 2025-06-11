@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Info, X, Plus, Trash2 } from "lucide-react"
+import { Info, Plus, Trash2 } from "lucide-react"
 
 interface Zone {
   id: string
@@ -362,7 +362,6 @@ export default function SystemConfigForm() {
                     <SelectItem value="calculo-basico">Cálculo básico</SelectItem>
                   </SelectContent>
                 </Select>
-                <X className="absolute right-8 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
             </div>
 
@@ -478,7 +477,6 @@ export default function SystemConfigForm() {
                     <SelectItem value="otro">Otro</SelectItem>
                   </SelectContent>
                 </Select>
-                <X className="absolute right-8 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
             </div>
 
@@ -895,7 +893,7 @@ export default function SystemConfigForm() {
           <CardDescription>Dimensionamiento del equipo de aire acondicionado</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <h3 className="text-lg font-medium text-[#007297]">Sistema {currentSystem.id}</h3>
+          <h3 className="text-lg font-medium text-[#007297]">Sistema 1</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
@@ -932,7 +930,6 @@ export default function SystemConfigForm() {
                     <SelectItem value="samsung">Samsung</SelectItem>
                   </SelectContent>
                 </Select>
-                <X className="absolute right-8 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
             </div>
 
@@ -956,7 +953,6 @@ export default function SystemConfigForm() {
                     <SelectItem value="ADEA35A">ADEA35A</SelectItem>
                   </SelectContent>
                 </Select>
-                <X className="absolute right-8 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
             </div>
           </div>
