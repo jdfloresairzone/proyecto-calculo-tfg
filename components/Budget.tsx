@@ -213,9 +213,9 @@ const budgets = [
         </div>
 
        {/* Budgets Section */}
-        <div className="mb-8">
-          <div className="flex items-right justify-between mb-6">
-            <h2 className="text-2xl md:text-3xl font-normal text-[#007297]">Presupuestos</h2>
+        <div className="mb-8 ">
+          <div className="flex items-right justify-between mb-6 border-b">
+            <h2 className="text-2xl md:text-3xl font-normal text-[#007297] mb-2">Presupuestos</h2>
             <Link href="/herramienta-de-presupuestos">
               <Button variant="link" className="text-sm md:text-base text-[#007297] hover:text-[#005a73] font-normal">
                 Nuevo presupuesto
@@ -225,7 +225,7 @@ const budgets = [
           </div>
 
           {/* Filter Controls */}
-          <div className="flex justify-between mb-6">
+          <div className="flex justify-between mb-6 mt-10">
             <div className="w-full max-w-md">
               <Select>
                 <SelectTrigger className="w-full border border-gray-300 rounded">

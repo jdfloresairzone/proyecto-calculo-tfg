@@ -118,7 +118,7 @@ export default function SystemConfigForm() {
         surface: "",
         climateType: "aire",
         zoneUnits: "si",
-        thermostat: "bianco",
+        thermostat: "blanco",
         color: "",
         connection: "",
         unitType: "canalizable",
