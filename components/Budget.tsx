@@ -246,7 +246,7 @@ const budgets = [
 
           {/* Budgets Table */}
           <div className="overflow-x-auto">
-            <Table>
+            <Table className="rounded-lg overflow-hidden border border-gray-300">
               <TableHeader className="bg-gray-100">
                 <TableRow>
                   <TableHead className="font-medium text-gray-700">Presupuesto</TableHead>
