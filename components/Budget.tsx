@@ -140,7 +140,7 @@ const budgets = [
           <div className="flex items-center h-16 space-x-8">
             <h1 className="text-2xl md:text-3xl font-medium text-[#007297] pr-18">Mi área</h1>
 
-            <div className="flex space-x-20 overflow-x-auto items-center">
+            <div className="flex space-x-5 overflow-x-auto items-center">
               {navItems.map((item, index) => (
                 <button
                   key={index}
