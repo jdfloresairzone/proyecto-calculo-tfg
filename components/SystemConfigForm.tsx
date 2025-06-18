@@ -11,57 +11,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Info, Plus, Trash2 } from "lucide-react"
+import type { Zone as QuoteZone, System as QuoteSystem } from "@/app/types/quote"
 
-interface Zone {
-  id: string
-  name: string
-  height: string
-  surface: string
-  climateType: string
-  zoneUnits: string
-  thermostat: string
-  color: string
-  connection: string
-  unitType: string
-  ratio: string
-  estimatedPower: string
-  diffusionType: string
-  diffusionElements: string
-}
-
-interface System {
-  id: string
-  name: string
-  ductType: string
-  equipmentType: string
-  brand: string
-  model: string
-  coolingCapacity: string
-  flowRate: string
-  plenumType: string
-  numberOfDampers: string
-  zones: Zone[]
-}
-
-interface DiffusionElement {
-  id: string
-  type: string
-  maxHeight: string
-  dimensions: string
-  flowRate: string
-  exitVelocity: string
-  color: string
-  fixation: string
-  regulation: string
-  plenum: string
-}
+type UIZone = QuoteZone & { id: string } // Añadimos id localmente para manejar en frontend
+type UISystem = Omit<QuoteSystem, "zones"> & { zones: UIZone[] }
 
 export default function SystemConfigForm() {
   const [currentStep, setCurrentStep] = useState(1)
   const [address, setAddress] = useState("")
   const [agent, setAgent] = useState("")
   const [clientReference, setClientReference] = useState("")
-
   // Calculation options state
   const [calculationType, setCalculationType] = useState("dimensionamiento")
   const [systemAirVelocity, setSystemAirVelocity] = useState("4")
@@ -69,101 +28,178 @@ export default function SystemConfigForm() {
   const [returnNetworkType, setReturnNetworkType] = useState("retorno-unico")
   const [soloSistema, setSoloSistema] = useState(false)
   const [sistemaYDifusion, setSistemaYDifusion] = useState(true)
-
   // System configuration state
   const [sistema, setSistema] = useState("easyzone")
   const [tecnologiaIntegracion, setTecnologiaIntegracion] = useState("airzone-cloud-wifi")
   const [tecnologiaProduccionRadiante, setTecnologiaProduccionRadiante] = useState("ninguna")
   const [incluirControlProduccion, setIncluirControlProduccion] = useState("no")
-
-  // System unit selection state
-  const [equipmentType, setEquipmentType] = useState("unidad-de-conducto")
-  const [brand, setBrand] = useState("daikin")
-  const [model, setModel] = useState("")
-  const [coolingCapacity, setCoolingCapacity] = useState("10")
-  const [flowRate, setFlowRate] = useState("150")
-
   // Plenum selection state
   const [plenumType, setPlenumType] = useState("plenum-standard")
   const [numberOfDampers, setNumberOfDampers] = useState("4")
-
   // Diffusion elements state
   const [includeStringers, setIncludeStringers] = useState(true)
   const [commonReturnType, setCommonReturnType] = useState("RRFR")
   const [commonReturnHeight, setCommonReturnHeight] = useState("400")
   const [commonReturnDimensions, setCommonReturnDimensions] = useState("400x400")
-
+  
   // Current system being edited
-  const [currentSystem, setCurrentSystem] = useState<System>({
-    id: "1",
+  const [currentSystem, setCurrentSystem] = useState<UISystem>({
+    motorized_plenum: "",
     name: "Sistema 1",
-    ductType: "flexible",
-    equipmentType: "unidad-de-conducto",
-    brand: "daikin",
-    model: "",
-    coolingCapacity: "10",
-    flowRate: "150",
-    plenumType: "plenum-standard",
-    numberOfDampers: "4",
+    duct_type_iso: "CT_FX",
+    bypass: { az_iso: "BY_NONE" },
+    iumodel: {
+      az_range: "07",
+      brand_name: "Daikin",
+      dampers: 3,
+      iso_2: "DA",
+      iso_3: "DAI",
+      iumodel_name: "ADEA50A",
+      plenum_type: "ST",
+      reference: "AZC25DAIST07S3",
+      size: "S",
+      heat_power_kw: null,
+      cold_power_kw: "9.50",
+      maximum_flow_m3h: "1740.00",
+      metric_system_iso: "INTERNATIONAL_METRIC_SYSTEM",
+    },
     zones: [
       {
         id: "1",
         name: "Zona 1",
-        height: "2.7",
-        surface: "",
-        climateType: "aire",
-        zoneUnits: "si",
-        thermostat: "blanco",
-        color: "",
-        connection: "",
-        unitType: "canalizable",
-        ratio: "30",
-        estimatedPower: "",
-        diffusionType: "",
-        diffusionElements: "",
+        height: 2.8,
+        area: "20",
+        climatisation_type_iso: "CLT_A",
+        interface_iso: "TTO_TYPE_BLUEFACE",
+        color_iso: "TTO_COLOR_WHITE",
+        connection_iso: "CONNETION_TYPE_C",
+        thermostat_iso: "AZCE6BLUEZEROCB",
+        ratio: 100,
+        demanded_power: null,
+        quote_diffusion_elements_quantity: 1,
+        quote_return_elements_quantity: 1,
+        zonified: 1,
+        radiant_type: null,
+        colectors: null,
+        include_thermostatic_valve: false,
+        thermostatic_valve_quantity: null,
+        radiators_quantity: null,
+        dumper_configuration: {
+          reduction: 0,
+          flow: "580.00",
+          duct_speed: 5.1,
+          dumper_iso: "CPCC",
+          quantity: 1,
+          dumper_dimension_id: null,
+          warning: "",
+        },
+        diffusion_configuration: {
+          impulsion: { product_iso: "RDHV", diffusion_group_iso: "AIRQ" },
+          return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
+          max_height: 150,
+          flow: "580.00",
+          output_speed: 2.3,
+          color_iso: "DIFUSSION_COLOR_B",
+          fixing_type_iso: "DIFUSSION_FIXING_C",
+          regulation_iso: "TYPE_REG_KO",
+          plenum_option_iso: true,
+          warning: "",
+          quantity: 1,
+          quantity_return: 1,
+          real_height: 200,
+          real_width: 600,
+        },
+        return_configuration: {
+          return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
+          max_height: 150,
+          flow: "580.00",
+          output_speed: 2.3,
+          color_iso: "DIFUSSION_COLOR_B",
+          fixing_type_iso: "DIFUSSION_FIXING_C",
+          regulation_iso: "TYPE_REG_KO",
+          plenum_option_iso: true,
+          real_height: 200,
+          real_width: 600,
+        },
+        iumodels: [],
+        diffusion_type_iso: "DT_CG",
+        flow: null,
       },
-      {
-        id: "2",
-        name: "Zona 2",
-        height: "2.7",
-        surface: "",
-        climateType: "aire",
-        zoneUnits: "si",
-        thermostat: "blanco",
-        color: "",
-        connection: "",
-        unitType: "canalizable",
-        ratio: "30",
-        estimatedPower: "",
-        diffusionType: "",
-        diffusionElements: "",
-      },
+      // Puedes clonar esta para Zona 2
     ],
+    return_configuration: null,
+    warning: null,
+    include_largueros: true,
+    include_energy_usage_meter: true,
+    include_dehumidifier: false,
+    include_return_plenum: false,
+    include_mixing_box: true,
+    include_thermostat: true,
   })
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && currentStep === 1) {
-      setCurrentStep(2)
-    }
-  }
-
   const addZone = () => {
-    const newZone: Zone = {
+    const newZone: UIZone = {
       id: Date.now().toString(),
       name: `Zona ${currentSystem.zones.length + 1}`,
-      height: "2.7",
-      surface: "",
-      climateType: "aire",
-      zoneUnits: "si",
-      thermostat: "bianco",
-      color: "",
-      connection: "",
-      unitType: "canalizable",
-      ratio: "30",
-      estimatedPower: "",
-      diffusionType: "",
-      diffusionElements: "",
+      height: 2.5,
+      area: "20",
+      climatisation_type_iso: "CLT_A",
+      interface_iso: "TTO_TYPE_BLUEFACE",
+      color_iso: "TTO_COLOR_WHITE",
+      connection_iso: "CONNETION_TYPE_C",
+      thermostat_iso: "AZCE6BLUEZEROCB",
+      ratio: 100,
+      demanded_power: null,
+      quote_diffusion_elements_quantity: 1,
+      quote_return_elements_quantity: 1,
+      zonified: 1,
+      radiant_type: null,
+      colectors: null,
+      include_thermostatic_valve: false,
+      thermostatic_valve_quantity: null,
+      radiators_quantity: null,
+      dumper_configuration: {
+        reduction: 0,
+        flow: "580.00",
+        duct_speed: 5.1,
+        dumper_iso: "CPCC",
+        quantity: 1,
+        dumper_dimension_id: null,
+        warning: "",
+      },
+      diffusion_configuration: {
+        impulsion: { product_iso: "RDHV", diffusion_group_iso: "AIRQ" },
+        return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
+        max_height: 150,
+        flow: "580.00",
+        output_speed: 2.3,
+        color_iso: "DIFUSSION_COLOR_B",
+        fixing_type_iso: "DIFUSSION_FIXING_C",
+        regulation_iso: "TYPE_REG_KO",
+        plenum_option_iso: true,
+        warning: "",
+        quantity: 1,
+        quantity_return: 1,
+        real_height: 200,
+        real_width: 600,
+      },
+      return_configuration: {
+        return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
+        max_height: 150,
+        flow: "580.00",
+        output_speed: 2.3,
+        color_iso: "DIFUSSION_COLOR_B",
+        fixing_type_iso: "DIFUSSION_FIXING_C",
+        regulation_iso: "TYPE_REG_KO",
+        plenum_option_iso: true,
+        real_height: 200,
+        real_width: 600,
+      },
+      iumodels: [],
+      diffusion_type_iso: "DT_CG",
+      flow: null,
     }
+
     setCurrentSystem((prev) => ({
       ...prev,
       zones: [...prev.zones, newZone],
@@ -179,20 +215,38 @@ export default function SystemConfigForm() {
     }
   }
 
-  const updateZone = (zoneId: string, field: keyof Zone, value: string) => {
+  const updateZone = (zoneId: string, field: keyof UIZone, value: any) => {
     setCurrentSystem((prev) => ({
       ...prev,
-      zones: prev.zones.map((zone) => (zone.id === zoneId ? { ...zone, [field]: value } : zone)),
+      zones: prev.zones.map((zone) =>
+        zone.id === zoneId ? { ...zone, [field]: value } : zone
+      ),
     }))
   }
 
-  const updateSystem = (field: keyof System, value: string) => {
+  const updateSystem = (field: keyof UISystem, value: any) => {
     setCurrentSystem((prev) => ({
       ...prev,
       [field]: value,
     }))
   }
 
+  const updateIumodel = (field: keyof UISystem["iumodel"], value: any) => {
+    setCurrentSystem((prev) => ({
+      ...prev,
+      iumodel: {
+        ...prev.iumodel,
+        [field]: value,
+      },
+    }))
+  }
+
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && currentStep === 1) {
+      setCurrentStep(2)
+    }
+  }
   const generarPresupuesto = async () => {
     try {
       const response = await fetch('https://devapi.airzonecloud.com/msquotairzone.v1/projects/quote-systems', {
@@ -203,7 +257,251 @@ export default function SystemConfigForm() {
           'Content-Type': 'application/json;charset=UTF-8',
           'apiKey': 'wsCbB83fPmD4apvZRi5D4s95U20pEiOc',
         },
-        body: JSON.stringify({"quote_header_id":7512,"systems":[{"motorized_plenum":"AZC25DAIST07S3","name":"Sistema 1","duct_type_iso":"CT_FX","bypass":{"az_iso":"BY_NONE"},"iumodel":{"az_range":"07","brand_name":"Daikin","dampers":3,"iso_2":"DA","iso_3":"DAI","iumodel_name":"ADEA50A","plenum_type":"ST","reference":"AZC25DAIST07S3","size":"S","heat_power_kw":null,"cold_power_kw":"9.50","maximum_flow_m3h":"1740.00","metric_system_iso":"INTERNATIONAL_METRIC_SYSTEM"},"zones":[{"name":"Zona 1","height":2.5,"area":"20","climatisation_type_iso":"CLT_A","interface_iso":"TTO_TYPE_BLUEFACE","color_iso":"TTO_COLOR_WHITE","connection_iso":"CONNETION_TYPE_C","thermostat_iso":"AZCE6BLUEZEROCB","ratio":100,"demanded_power":null,"quote_diffusion_elements_quantity":1,"quote_return_elements_quantity":1,"zonified":1,"radiant_type":null,"colectors":null,"include_thermostatic_valve":false,"thermostatic_valve_quantity":null,"radiators_quantity":null,"dumper_configuration":{"reduction":0,"flow":"580.00","duct_speed":5.1,"dumper_iso":"CPCC","quantity":1,"dumper_dimension_id":null,"warning":"<p>Velocidad en ducto elevada en <strong>Zona 1</strong>.</p><p>Si el aire circula con elevada velocidad, el confort acústico se reduce.</p><p>Verifique con el número de compuertas disponibles del plenum, si es posible añadir un elemento de difusión adicional en la zona con velocidad alta.</p>"},"diffusion_configuration":{"impulsion":{"product_iso":"RDHV","diffusion_group_iso":"AIRQ"},"return":{"product_iso":"RSDR","diffusion_group_iso":"AIRQ"},"max_height":150,"flow":"580.00","output_speed":2.3,"color_iso":"DIFUSSION_COLOR_B","fixing_type_iso":"DIFUSSION_FIXING_C","regulation_iso":"TYPE_REG_KO","plenum_option_iso":true,"warning":"","quantity":1,"quantity_return":1,"real_height":200,"real_width":600},"return_configuration":{"return":{"product_iso":"RSDR","diffusion_group_iso":"AIRQ"},"max_height":150,"flow":"580.00","output_speed":2.3,"color_iso":"DIFUSSION_COLOR_B","fixing_type_iso":"DIFUSSION_FIXING_C","regulation_iso":"TYPE_REG_KO","plenum_option_iso":true,"real_height":200,"real_width":600},"iumodels":[],"diffusion_type_iso":"DT_CG","flow":null},{"name":"Zona 2","height":2.5,"area":"20","climatisation_type_iso":"CLT_A","interface_iso":"TTO_TYPE_LITE","color_iso":"TTO_COLOR_WHITE","connection_iso":"CONNETION_TYPE_R","thermostat_iso":"AZCE6LITERB","ratio":100,"demanded_power":null,"quote_diffusion_elements_quantity":1,"quote_return_elements_quantity":1,"zonified":1,"radiant_type":null,"colectors":null,"include_thermostatic_valve":false,"thermostatic_valve_quantity":null,"radiators_quantity":null,"dumper_configuration":{"reduction":0,"flow":"580.00","duct_speed":5.1,"dumper_iso":"CPCC","quantity":1,"dumper_dimension_id":null,"warning":"<p>Velocidad en ducto elevada en <strong>Zona 2</strong>.</p><p>Si el aire circula con elevada velocidad, el confort acústico se reduce.</p><p>Verifique con el número de compuertas disponibles del plenum, si es posible añadir un elemento de difusión adicional en la zona con velocidad alta.</p>"},"diffusion_configuration":{"impulsion":{"product_iso":"RDHV","diffusion_group_iso":"AIRQ"},"return":{"product_iso":"RSDR","diffusion_group_iso":"AIRQ"},"max_height":150,"flow":"580.00","output_speed":2.3,"color_iso":"DIFUSSION_COLOR_B","fixing_type_iso":"DIFUSSION_FIXING_C","regulation_iso":"TYPE_REG_KO","plenum_option_iso":true,"warning":"","quantity":1,"quantity_return":1,"real_height":200,"real_width":600},"return_configuration":{"return":{"product_iso":"RSDR","diffusion_group_iso":"AIRQ"},"max_height":150,"flow":"580.00","output_speed":2.3,"color_iso":"DIFUSSION_COLOR_B","fixing_type_iso":"DIFUSSION_FIXING_C","regulation_iso":"TYPE_REG_KO","plenum_option_iso":true,"real_height":200,"real_width":600},"iumodels":[],"diffusion_type_iso":"DT_CG","flow":null},{"name":"Zona 3","height":2.5,"area":"20","climatisation_type_iso":"CLT_A","interface_iso":"TTO_TYPE_LITE","color_iso":"TTO_COLOR_WHITE","connection_iso":"CONNETION_TYPE_R","thermostat_iso":"AZCE6LITERB","ratio":100,"demanded_power":null,"quote_diffusion_elements_quantity":1,"quote_return_elements_quantity":1,"zonified":1,"radiant_type":null,"colectors":null,"include_thermostatic_valve":false,"thermostatic_valve_quantity":null,"radiators_quantity":null,"dumper_configuration":{"reduction":0,"flow":"580.00","duct_speed":5.1,"dumper_iso":"CPCC","quantity":1,"dumper_dimension_id":null,"warning":"<p>Velocidad en ducto elevada en <strong>Zona 3</strong>.</p><p>Si el aire circula con elevada velocidad, el confort acústico se reduce.</p><p>Verifique con el número de compuertas disponibles del plenum, si es posible añadir un elemento de difusión adicional en la zona con velocidad alta.</p>"},"diffusion_configuration":{"impulsion":{"product_iso":"RDHV","diffusion_group_iso":"AIRQ"},"return":{"product_iso":"RSDR","diffusion_group_iso":"AIRQ"},"max_height":150,"flow":"580.00","output_speed":2.3,"color_iso":"DIFUSSION_COLOR_B","fixing_type_iso":"DIFUSSION_FIXING_C","regulation_iso":"TYPE_REG_KO","plenum_option_iso":true,"warning":"","quantity":1,"quantity_return":1,"real_height":200,"real_width":600},"return_configuration":{"return":{"product_iso":"RSDR","diffusion_group_iso":"AIRQ"},"max_height":150,"flow":"580.00","output_speed":2.3,"color_iso":"DIFUSSION_COLOR_B","fixing_type_iso":"DIFUSSION_FIXING_C","regulation_iso":"TYPE_REG_KO","plenum_option_iso":true,"real_height":200,"real_width":600},"iumodels":[],"diffusion_type_iso":"DT_CG","flow":null}],"return_configuration":null,"warning":null,"include_largueros":true,"include_energy_usage_meter":true,"include_dehumidifier":false,"include_return_plenum":false,"include_mixing_box":true,"include_thermostat":true}]})
+        body: JSON.stringify({
+    "quote_header_id": 7512,
+    "systems": [
+        {
+            "motorized_plenum": "AZC25DAIST07S3",
+            "name": currentSystem.name,
+            "duct_type_iso": "CT_FX",
+            "bypass": {
+                "az_iso": "BY_NONE"
+            },
+            "iumodel": {
+                "az_range": "07",
+                "brand_name": "Daikin",
+                "dampers": 3,
+                "iso_2": "DA",
+                "iso_3": "DAI",
+                "iumodel_name": "ADEA50A",
+                "plenum_type": "ST",
+                "reference": "AZC25DAIST07S3",
+                "size": "S",
+                "heat_power_kw": null,
+                "cold_power_kw": "9.50",
+                "maximum_flow_m3h": "1740.00",
+                "metric_system_iso": "INTERNATIONAL_METRIC_SYSTEM"
+            },
+            "zones": [
+                {
+                    "name": "Zona 1",
+                    "height": 2.5,
+                    "area": "20",
+                    "climatisation_type_iso": "CLT_A",
+                    "interface_iso": "TTO_TYPE_BLUEFACE",
+                    "color_iso": "TTO_COLOR_WHITE",
+                    "connection_iso": "CONNETION_TYPE_C",
+                    "thermostat_iso": "AZCE6BLUEZEROCB",
+                    "ratio": 100,
+                    "demanded_power": null,
+                    "quote_diffusion_elements_quantity": 1,
+                    "quote_return_elements_quantity": 1,
+                    "zonified": 1,
+                    "radiant_type": null,
+                    "colectors": null,
+                    "include_thermostatic_valve": false,
+                    "thermostatic_valve_quantity": null,
+                    "radiators_quantity": null,
+                    "dumper_configuration": {
+                        "reduction": 0,
+                        "flow": "580.00",
+                        "duct_speed": 5.1,
+                        "dumper_iso": "CPCC",
+                        "quantity": 1,
+                        "dumper_dimension_id": null,
+                        "warning": "<p>Velocidad en ducto elevada en <strong>Zona 1</strong>.</p><p>Si el aire circula con elevada velocidad, el confort acústico se reduce.</p><p>Verifique con el número de compuertas disponibles del plenum, si es posible añadir un elemento de difusión adicional en la zona con velocidad alta.</p>"
+                    },
+                    "diffusion_configuration": {
+                        "impulsion": {
+                            "product_iso": "RDHV",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "return": {
+                            "product_iso": "RSDR",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "max_height": 150,
+                        "flow": "580.00",
+                        "output_speed": 2.3,
+                        "color_iso": "DIFUSSION_COLOR_B",
+                        "fixing_type_iso": "DIFUSSION_FIXING_C",
+                        "regulation_iso": "TYPE_REG_KO",
+                        "plenum_option_iso": true,
+                        "warning": "",
+                        "quantity": 1,
+                        "quantity_return": 1,
+                        "real_height": 200,
+                        "real_width": 600
+                    },
+                    "return_configuration": {
+                        "return": {
+                            "product_iso": "RSDR",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "max_height": 150,
+                        "flow": "580.00",
+                        "output_speed": 2.3,
+                        "color_iso": "DIFUSSION_COLOR_B",
+                        "fixing_type_iso": "DIFUSSION_FIXING_C",
+                        "regulation_iso": "TYPE_REG_KO",
+                        "plenum_option_iso": true,
+                        "real_height": 200,
+                        "real_width": 600
+                    },
+                    "iumodels": [],
+                    "diffusion_type_iso": "DT_CG",
+                    "flow": null
+                },
+                {
+                    "name": "Zona 2",
+                    "height": 2.5,
+                    "area": "20",
+                    "climatisation_type_iso": "CLT_A",
+                    "interface_iso": "TTO_TYPE_LITE",
+                    "color_iso": "TTO_COLOR_WHITE",
+                    "connection_iso": "CONNETION_TYPE_R",
+                    "thermostat_iso": "AZCE6LITERB",
+                    "ratio": 100,
+                    "demanded_power": null,
+                    "quote_diffusion_elements_quantity": 1,
+                    "quote_return_elements_quantity": 1,
+                    "zonified": 1,
+                    "radiant_type": null,
+                    "colectors": null,
+                    "include_thermostatic_valve": false,
+                    "thermostatic_valve_quantity": null,
+                    "radiators_quantity": null,
+                    "dumper_configuration": {
+                        "reduction": 0,
+                        "flow": "580.00",
+                        "duct_speed": 5.1,
+                        "dumper_iso": "CPCC",
+                        "quantity": 1,
+                        "dumper_dimension_id": null,
+                        "warning": "<p>Velocidad en ducto elevada en <strong>Zona 2</strong>.</p><p>Si el aire circula con elevada velocidad, el confort acústico se reduce.</p><p>Verifique con el número de compuertas disponibles del plenum, si es posible añadir un elemento de difusión adicional en la zona con velocidad alta.</p>"
+                    },
+                    "diffusion_configuration": {
+                        "impulsion": {
+                            "product_iso": "RDHV",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "return": {
+                            "product_iso": "RSDR",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "max_height": 150,
+                        "flow": "580.00",
+                        "output_speed": 2.3,
+                        "color_iso": "DIFUSSION_COLOR_B",
+                        "fixing_type_iso": "DIFUSSION_FIXING_C",
+                        "regulation_iso": "TYPE_REG_KO",
+                        "plenum_option_iso": true,
+                        "warning": "",
+                        "quantity": 1,
+                        "quantity_return": 1,
+                        "real_height": 200,
+                        "real_width": 600
+                    },
+                    "return_configuration": {
+                        "return": {
+                            "product_iso": "RSDR",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "max_height": 150,
+                        "flow": "580.00",
+                        "output_speed": 2.3,
+                        "color_iso": "DIFUSSION_COLOR_B",
+                        "fixing_type_iso": "DIFUSSION_FIXING_C",
+                        "regulation_iso": "TYPE_REG_KO",
+                        "plenum_option_iso": true,
+                        "real_height": 200,
+                        "real_width": 600
+                    },
+                    "iumodels": [],
+                    "diffusion_type_iso": "DT_CG",
+                    "flow": null
+                },
+                {
+                    "name": "Zona 3",
+                    "height": 2.5,
+                    "area": "20",
+                    "climatisation_type_iso": "CLT_A",
+                    "interface_iso": "TTO_TYPE_LITE",
+                    "color_iso": "TTO_COLOR_WHITE",
+                    "connection_iso": "CONNETION_TYPE_R",
+                    "thermostat_iso": "AZCE6LITERB",
+                    "ratio": 100,
+                    "demanded_power": null,
+                    "quote_diffusion_elements_quantity": 1,
+                    "quote_return_elements_quantity": 1,
+                    "zonified": 1,
+                    "radiant_type": null,
+                    "colectors": null,
+                    "include_thermostatic_valve": false,
+                    "thermostatic_valve_quantity": null,
+                    "radiators_quantity": null,
+                    "dumper_configuration": {
+                        "reduction": 0,
+                        "flow": "580.00",
+                        "duct_speed": 5.1,
+                        "dumper_iso": "CPCC",
+                        "quantity": 1,
+                        "dumper_dimension_id": null,
+                        "warning": "<p>Velocidad en ducto elevada en <strong>Zona 3</strong>.</p><p>Si el aire circula con elevada velocidad, el confort acústico se reduce.</p><p>Verifique con el número de compuertas disponibles del plenum, si es posible añadir un elemento de difusión adicional en la zona con velocidad alta.</p>"
+                    },
+                    "diffusion_configuration": {
+                        "impulsion": {
+                            "product_iso": "RDHV",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "return": {
+                            "product_iso": "RSDR",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "max_height": 150,
+                        "flow": "580.00",
+                        "output_speed": 2.3,
+                        "color_iso": "DIFUSSION_COLOR_B",
+                        "fixing_type_iso": "DIFUSSION_FIXING_C",
+                        "regulation_iso": "TYPE_REG_KO",
+                        "plenum_option_iso": true,
+                        "warning": "",
+                        "quantity": 1,
+                        "quantity_return": 1,
+                        "real_height": 200,
+                        "real_width": 600
+                    },
+                    "return_configuration": {
+                        "return": {
+                            "product_iso": "RSDR",
+                            "diffusion_group_iso": "AIRQ"
+                        },
+                        "max_height": 150,
+                        "flow": "580.00",
+                        "output_speed": 2.3,
+                        "color_iso": "DIFUSSION_COLOR_B",
+                        "fixing_type_iso": "DIFUSSION_FIXING_C",
+                        "regulation_iso": "TYPE_REG_KO",
+                        "plenum_option_iso": true,
+                        "real_height": 200,
+                        "real_width": 600
+                    },
+                    "iumodels": [],
+                    "diffusion_type_iso": "DT_CG",
+                    "flow": null
+                }
+            ],
+            "return_configuration": null,
+            "warning": null,
+            "include_largueros": true,
+            "include_energy_usage_meter": true,
+            "include_dehumidifier": false,
+            "include_return_plenum": false,
+            "include_mixing_box": true,
+            "include_thermostat": true
+        }
+    ]
+})
       });
 
       const data = await response.json();
@@ -524,14 +822,14 @@ export default function SystemConfigForm() {
               <Label htmlFor="duct-type" className="text-blue-600">
                 Tipo de conducto
               </Label>
-              <Select value={currentSystem.ductType} onValueChange={(value) => updateSystem("ductType", value)}>
+              <Select value={currentSystem.duct_type_iso} onValueChange={(value) => updateSystem("duct_type_iso", value)}>
                 <SelectTrigger className="bg-gray-50">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="flexible">Flexible</SelectItem>
-                  <SelectItem value="rigido">Rigido</SelectItem>
-                  <SelectItem value="misto">Mixto</SelectItem>
+                  <SelectItem value="CT_FX">Flexible</SelectItem>
+                  <SelectItem value="CT_RI">Rígido</SelectItem>
+                  <SelectItem value="CT_MI">Mixto</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -547,7 +845,7 @@ export default function SystemConfigForm() {
               </Button>
             </div>
 
-            {currentSystem.zones.map((zone, zoneIndex) => (
+            {currentSystem.zones.map((zone) => (
               <Card key={zone.id} className="border-l-4 border-l-blue-500">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
@@ -588,8 +886,8 @@ export default function SystemConfigForm() {
                     <div className="space-y-2">
                       <Label className="text-blue-600">Superficie (m2)</Label>
                       <Input
-                        value={zone.surface}
-                        onChange={(e) => updateZone(zone.id, "surface", e.target.value)}
+                        value={zone.area}
+                        onChange={(e) => updateZone(zone.id, "area", e.target.value)}
                         className="bg-gray-50"
                       />
                     </div>
@@ -598,20 +896,20 @@ export default function SystemConfigForm() {
                   <div className="space-y-4">
                     <Label className="text-blue-600">Tipo de climatización</Label>
                     <RadioGroup
-                      value={zone.climateType}
-                      onValueChange={(value) => updateZone(zone.id, "climateType", value)}
+                      value={zone.climatisation_type_iso}
+                      onValueChange={(value) => updateZone(zone.id, "climatisation_type_iso", value)}
                       className="flex gap-6"
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="aire" id={`aire-${zone.id}`} />
+                        <RadioGroupItem value="CLT_A" id={`aire-${zone.id}`} />
                         <Label htmlFor={`aire-${zone.id}`}>Aire</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="radiante" id={`radiante-${zone.id}`} />
+                        <RadioGroupItem value="CLT_R" id={`radiante-${zone.id}`} />
                         <Label htmlFor={`radiante-${zone.id}`}>Radiante</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="aire-radiante" id={`aire-radiante-${zone.id}`} />
+                        <RadioGroupItem value="CLT_RA" id={`aire-radiante-${zone.id}`} />
                         <Label htmlFor={`aire-radiante-${zone.id}`}>Aire y Radiante</Label>
                       </div>
                     </RadioGroup>
@@ -620,16 +918,16 @@ export default function SystemConfigForm() {
                   <div className="space-y-4">
                     <Label className="text-blue-600">Unidades zonificadas</Label>
                     <RadioGroup
-                      value={zone.zoneUnits}
-                      onValueChange={(value) => updateZone(zone.id, "zoneUnits", value)}
+                      value={String(zone.zonified)}
+                      onValueChange={(value) => updateZone(zone.id, "zonified", value)}
                       className="flex gap-6"
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="si" id={`si-${zone.id}`} />
+                        <RadioGroupItem value="1" id={`si-${zone.id}`} />
                         <Label htmlFor={`si-${zone.id}`}>Sí</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="no" id={`no-${zone.id}`} />
+                        <RadioGroupItem value="0" id={`no-${zone.id}`} />
                         <Label htmlFor={`no-${zone.id}`}>No</Label>
                       </div>
                     </RadioGroup>
@@ -639,30 +937,29 @@ export default function SystemConfigForm() {
                     <div className="space-y-2">
                       <Label className="text-blue-600">Termostato</Label>
                       <Select
-                        value={zone.thermostat}
-                        onValueChange={(value) => updateZone(zone.id, "thermostat", value)}
+                        value={zone.interface_iso}
+                        onValueChange={(value) => updateZone(zone.id, "interface_iso", value)}
                       >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="bianco">Blanco</SelectItem>
-                          <SelectItem value="nero">Negro</SelectItem>
-                          <SelectItem value="grigio">Gris</SelectItem>
+                          <SelectItem value="TTO_TYPE_BLUEFACE">Blueface</SelectItem>
+                          <SelectItem value="TTO_TYPE_THINK">Think</SelectItem>
+                          <SelectItem value="TTO_TYPE_LITE">Lite</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-blue-600">Color</Label>
-                      <Select value={zone.color} onValueChange={(value) => updateZone(zone.id, "color", value)}>
+                      <Select value={zone.color_iso} onValueChange={(value) => updateZone(zone.id, "color_iso", value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar color" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="bianco">Blanco</SelectItem>
-                          <SelectItem value="nero">Negro</SelectItem>
-                          <SelectItem value="grigio">Gris</SelectItem>
+                          <SelectItem value="TTO_COLOR_WHITE">Blanco</SelectItem>
+                          <SelectItem value="TTO_COLOR_BLACK">Negro</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -670,16 +967,15 @@ export default function SystemConfigForm() {
                     <div className="space-y-2">
                       <Label className="text-blue-600">Conexión</Label>
                       <Select
-                        value={zone.connection}
-                        onValueChange={(value) => updateZone(zone.id, "connection", value)}
+                        value={zone.connection_iso}
+                        onValueChange={(value) => updateZone(zone.id, "connection_iso", value)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar conexión" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="wifi">WiFi</SelectItem>
-                          <SelectItem value="cablata">Cableado</SelectItem>
-                          <SelectItem value="wireless">Inalámbrico</SelectItem>
+                          <SelectItem value="CONNETION_TYPE_R">Radio</SelectItem>
+                          <SelectItem value="CONNETION_TYPE_C">Cable</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -687,38 +983,15 @@ export default function SystemConfigForm() {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="space-y-2">
-                      <Label className="text-blue-600">Tipo de unidad</Label>
-                      <Select value={zone.unitType} onValueChange={(value) => updateZone(zone.id, "unitType", value)}>
+                      <Label className="text-blue-600">Tipo de equipo</Label>
+                      <Select disabled={true}>
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue placeholder="Seleccionar tipo de equipo"/>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="canalizable">Unidad canalizable</SelectItem>
-                          <SelectItem value="split">Split</SelectItem>
-                          <SelectItem value="multisplit">Multisplit</SelectItem>
+                          <SelectItem value="canalizable">Unidad de conducto</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label className="text-blue-600">Relación w/m3</Label>
-                      <Input
-                        value={zone.ratio}
-                        onChange={(e) => updateZone(zone.id, "ratio", e.target.value)}
-                        className="bg-gray-50"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Label className="text-blue-600">Potencia estimada (Kw)</Label>
-                        <Info className="h-4 w-4 text-gray-400" />
-                      </div>
-                      <Input
-                        value={zone.estimatedPower}
-                        onChange={(e) => updateZone(zone.id, "estimatedPower", e.target.value)}
-                        className="bg-gray-50"
-                      />
                     </div>
                   </div>
 
@@ -726,16 +999,14 @@ export default function SystemConfigForm() {
                     <div className="space-y-2">
                       <Label className="text-blue-600">Tipo de difusión</Label>
                       <Select
-                        value={zone.diffusionType}
-                        onValueChange={(value) => updateZone(zone.id, "diffusionType", value)}
+                        value={zone.diffusion_type_iso}
+                        onValueChange={(value) => updateZone(zone.id, "diffusion_type_iso", value)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar tipo" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="lineare">Linear</SelectItem>
-                          <SelectItem value="radiale">Radial</SelectItem>
-                          <SelectItem value="mista">Mixta</SelectItem>
+                          <SelectItem value="DT_CG">Compuerta circular monotorizada</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -743,8 +1014,7 @@ export default function SystemConfigForm() {
                     <div className="space-y-2">
                       <Label className="text-blue-600">Número de elementos de difusión</Label>
                       <Select
-                        value={zone.diffusionElements}
-                        onValueChange={(value) => updateZone(zone.id, "diffusionElements", value)}
+                        value={String(zone.diffusion_configuration.quantity_return)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar numero" />
@@ -787,8 +1057,6 @@ export default function SystemConfigForm() {
               </Label>
               <Input
                 id="equipment-type"
-                value={currentSystem.equipmentType}
-                onChange={(e) => updateSystem("equipmentType", e.target.value)}
                 className="bg-gray-50"
                 placeholder="Unidad de conducto"
                 disabled={currentStep < 5}
@@ -801,18 +1069,18 @@ export default function SystemConfigForm() {
               </Label>
               <div className="relative">
                 <Select
-                  value={currentSystem.brand}
-                  onValueChange={(value) => updateSystem("brand", value)}
+                  value={currentSystem.iumodel.brand_name}
+                  onValueChange={(value) => updateIumodel("brand_name", value)}
                   disabled={currentStep < 5}
                 >
                   <SelectTrigger className="bg-gray-50 pr-10">
-                    <SelectValue />
+                    <SelectValue placeholder="Seleccionar marca" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="daikin">Daikin</SelectItem>
-                    <SelectItem value="mitsubishi">Mitsubishi</SelectItem>
-                    <SelectItem value="lg">LG</SelectItem>
-                    <SelectItem value="samsung">Samsung</SelectItem>
+                    <SelectItem value="Daikin">Daikin</SelectItem>
+                    <SelectItem value="Mitsubishi">Mitsubishi</SelectItem>
+                    <SelectItem value="LG">LG</SelectItem>
+                    <SelectItem value="Samsung">Samsung</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -824,8 +1092,8 @@ export default function SystemConfigForm() {
               </Label>
               <div className="relative">
                 <Select
-                  value={currentSystem.model}
-                  onValueChange={(value) => updateSystem("model", value)}
+                  value={currentSystem.iumodel.iumodel_name}
+                  onValueChange={(value) => updateIumodel("iumodel_name", value)}
                   disabled={currentStep < 5}
                 >
                   <SelectTrigger className="bg-gray-50 pr-10">
@@ -846,25 +1114,12 @@ export default function SystemConfigForm() {
             <div className="space-y-2">
               <Label htmlFor="cooling-capacity" className="text-blue-600">
                 Potencia frigorífica Kw
-              </Label>
-              <div className="relative">
-                <Select
-                  value={currentSystem.coolingCapacity}
-                  onValueChange={(value) => updateSystem("coolingCapacity", value)}
-                  disabled={currentStep < 5}
-                >
-                  <SelectTrigger className="bg-gray-50 pr-10">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="8">8</SelectItem>
-                    <SelectItem value="6">6</SelectItem>
-                    <SelectItem value="5">5</SelectItem>
-                    <SelectItem value="3.5">3.5</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              </Label>                  
+              <Input
+                    value={currentSystem.iumodel.cold_power_kw}
+                    onChange={(value) => updateIumodel("cold_power_kw", value)}
+                    className="bg-gray-50"
+              />
             </div>
 
             <div className="space-y-2">
@@ -873,10 +1128,9 @@ export default function SystemConfigForm() {
               </Label>
               <Input
                 id="flow-rate"
-                value={currentSystem.flowRate}
-                onChange={(e) => updateSystem("flowRate", e.target.value)}
+                value={currentSystem.iumodel.maximum_flow_m3h}
                 className="bg-gray-50"
-                disabled={currentStep < 5}
+                disabled={true}
               />
             </div>
           </div>
