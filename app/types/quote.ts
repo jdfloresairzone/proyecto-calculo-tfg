@@ -12,7 +12,7 @@ export interface System {
   }
   iumodel: Iumodel
   zones: Zone[]
-  return_configuration: any // puede ser null o un objeto si tienes más info
+  return_configuration: any 
   warning: string | null
   include_largueros: boolean
   include_energy_usage_meter: boolean
@@ -60,7 +60,7 @@ export interface Zone {
   dumper_configuration: DumperConfiguration
   diffusion_configuration: DiffusionConfiguration
   return_configuration: ReturnConfiguration
-  iumodels: any[] // podrías definir mejor esto si tienes estructura
+  iumodels: any[] 
   diffusion_type_iso: string
   flow: number | null
 }
