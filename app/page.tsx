@@ -1,11 +1,9 @@
-import Budget from "@/components/Budget";
-import SystemConfigForm from "@/components/SystemConfigForm";
-
+import MyArea from "@/components/MyArea";
 
 export default function Home() {
   return (
     <section className="p-4">
-      <Budget></Budget>
+      <MyArea></MyArea>
     </section>
   );
 }

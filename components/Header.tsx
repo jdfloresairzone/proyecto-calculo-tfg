@@ -1,6 +1,8 @@
 import { Search, User, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
+
 
 export default function Header() {
   return (
@@ -10,14 +12,14 @@ export default function Header() {
           {/* Logo a la izquierda */}
           <div className="flex items-center">
             <figure className="flex items-center justify-center p-5 lg:flex-none">
-              <a href="https://airzonecontrol/ib/es/" target="_self">
+              <Link href="/">
                 <img
                   src="https://res.cloudinary.com/airzone/image/upload/v1707306077/images/airzone.svg"
                   alt="Airzone logo"
                   width={200}
                   height={50}
                 />
-              </a>
+              </Link>
             </figure>
           </div>
 

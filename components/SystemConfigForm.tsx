@@ -386,6 +386,44 @@ export default function SystemConfigForm() {
     }
   }
 
+  const descargarPresupuestoPDF = async () => {
+    try {
+      const response = await fetch(
+        `https://devapi.airzonecloud.com/msquotairzone.v1/quote-headers/254136/pdf/pvp?discount=0&memory=true`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+            "Content-Type": "application/json",
+            apikey: `${process.env.NEXT_PUBLIC_API_KEY}`,
+            "app-locale": "es",
+            "app-market": "ib",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error al descargar el PDF: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "presupuesto_airzone.pdf";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url); 
+
+    } catch (error) {
+      console.error("Error al generar el PDF:", error);
+      alert("No se pudo descargar el presupuesto en PDF.");
+    }
+  };
+
   const generarPresupuesto = async () => {
     setIsGeneratingQuote(true)
     try {
@@ -393,10 +431,9 @@ export default function SystemConfigForm() {
         method: "POST",
         headers: {
           Accept: "application/json",
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNCIsImp0aSI6ImFmOTRjYjZlMjQzYmIyZDI0YTExYzBiYTcwMDUxZmIzMmQ2ZWJkYmE0ZmY2YmUyYTg3MzkzMDBlNWYxMGUzZDVmZjMxMDFkOTYzOTY5ZTNjIiwiaWF0IjoxNzUwMTc0MTQ1LjMwNjQ5NSwibmJmIjoxNzUwMTc0MTQ1LjMwNjQ5OCwiZXhwIjoxNzgxNzEwMTQ1LjI5OTA5MSwic3ViIjoiOTE3MSIsInNjb3BlcyI6WyIqIl19.Kbag3lwDj4KkYPsoPpaDK0LlkmUSYOhHHp6BadHmIZE_p-SG632hF6EdLljrumuyH77SavpbMBUJ1A5QAdW_TU6nc07HIlGkjn6n0rOtPlF-TkURO1ih_akGzaPedZHvUkxq6jDdo3IDoZJCi5N5Ijf7Pv-OnfGOEuYE2wRld262oFfh-HuwSo_CMYRUHUN3EtoQgNdv7yqF4_w97mzHPi-i-b54wdnCebdeX9rY9IERjETYj3Iglv7iZvbUJwbd2PjAdcGbrwbC_8l8eiFeIQiRg-L8hHHui9KZSIjaEtuziGkewwKHG_d7GN5Y_xuSg8EfHAWZMKCu6hsXN037fnx7zx3gudqeXvbbqT8OaSwC_j_X02eSmOzyZ_cILmF6rz2T7u3HSHEOVSFfL4nK5fXK1sXSRXgrsGv4vq3O44uj8U0qd607h71nuEvh_87KwPQ9wb1ck_sJIE_JsWn9qKs4Cx6r-zCWQ_VsNm67U3G2N9RrqzP0ScBOpdmKv2OVzcnSe7BwvtjGmU7DLtAlPETBzijAPaUon4Dst-4txLXScLUNT_vCLqiD2ppfWHnouUv_eLv-6p9cTd-DGIk5GtxBxAc8d62kjliCSsyJYudhJSXrJFGr6WKy_TkjVEp9v_xKEFxZk_QrBwhVnPPlrPBKxuuUa1M_JJBR-A30bCU",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
           "Content-Type": "application/json;charset=UTF-8",
-          apiKey: "wsCbB83fPmD4apvZRi5D4s95U20pEiOc",
+          apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify({
           quote_header_id: 7540,
@@ -624,9 +661,8 @@ export default function SystemConfigForm() {
         method: "PUT",
         headers: {
           Accept: "application/json",
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNCIsImp0aSI6ImFmOTRjYjZlMjQzYmIyZDI0YTExYzBiYTcwMDUxZmIzMmQ2ZWJkYmE0ZmY2YmUyYTg3MzkzMDBlNWYxMGUzZDVmZjMxMDFkOTYzOTY5ZTNjIiwiaWF0IjoxNzUwMTc0MTQ1LjMwNjQ5NSwibmJmIjoxNzUwMTc0MTQ1LjMwNjQ5OCwiZXhwIjoxNzgxNzEwMTQ1LjI5OTA5MSwic3ViIjoiOTE3MSIsInNjb3BlcyI6WyIqIl19.Kbag3lwDj4KkYPsoPpaDK0LlkmUSYOhHHp6BadHmIZE_p-SG632hF6EdLljrumuyH77SavpbMBUJ1A5QAdW_TU6nc07HIlGkjn6n0rOtPlF-TkURO1ih_akGzaPedZHvUkxq6jDdo3IDoZJCi5N5Ijf7Pv-OnfGOEuYE2wRld262oFfh-HuwSo_CMYRUHUN3EtoQgNdv7yqF4_w97mzHPi-i-b54wdnCebdeX9rY9IERjETYj3Iglv7iZvbUJwbd2PjAdcGbrwbC_8l8eiFeIQiRg-L8hHHui9KZSIjaEtuziGkewwKHG_d7GN5Y_xuSg8EfHAWZMKCu6hsXN037fnx7zx3gudqeXvbbqT8OaSwC_j_X02eSmOzyZ_cILmF6rz2T7u3HSHEOVSFfL4nK5fXK1sXSRXgrsGv4vq3O44uj8U0qd607h71nuEvh_87KwPQ9wb1ck_sJIE_JsWn9qKs4Cx6r-zCWQ_VsNm67U3G2N9RrqzP0ScBOpdmKv2OVzcnSe7BwvtjGmU7DLtAlPETBzijAPaUon4Dst-4txLXScLUNT_vCLqiD2ppfWHnouUv_eLv-6p9cTd-DGIk5GtxBxAc8d62kjliCSsyJYudhJSXrJFGr6WKy_TkjVEp9v_xKEFxZk_QrBwhVnPPlrPBKxuuUa1M_JJBR-A30bCU" /* tu token completo */,
-          apiKey: "wsCbB83fPmD4apvZRi5D4s95U20pEiOc",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+          apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify({
           client_id: 7098,
@@ -653,9 +689,9 @@ export default function SystemConfigForm() {
         method: "PUT",
         headers: {
           Accept: "application/json",
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNCIsImp0aSI6ImFmOTRjYjZlMjQzYmIyZDI0YTExYzBiYTcwMDUxZmIzMmQ2ZWJkYmE0ZmY2YmUyYTg3MzkzMDBlNWYxMGUzZDVmZjMxMDFkOTYzOTY5ZTNjIiwiaWF0IjoxNzUwMTc0MTQ1LjMwNjQ5NSwibmJmIjoxNzUwMTc0MTQ1LjMwNjQ5OCwiZXhwIjoxNzgxNzEwMTQ1LjI5OTA5MSwic3ViIjoiOTE3MSIsInNjb3BlcyI6WyIqIl19.Kbag3lwDj4KkYPsoPpaDK0LlkmUSYOhHHp6BadHmIZE_p-SG632hF6EdLljrumuyH77SavpbMBUJ1A5QAdW_TU6nc07HIlGkjn6n0rOtPlF-TkURO1ih_akGzaPedZHvUkxq6jDdo3IDoZJCi5N5Ijf7Pv-OnfGOEuYE2wRld262oFfh-HuwSo_CMYRUHUN3EtoQgNdv7yqF4_w97mzHPi-i-b54wdnCebdeX9rY9IERjETYj3Iglv7iZvbUJwbd2PjAdcGbrwbC_8l8eiFeIQiRg-L8hHHui9KZSIjaEtuziGkewwKHG_d7GN5Y_xuSg8EfHAWZMKCu6hsXN037fnx7zx3gudqeXvbbqT8OaSwC_j_X02eSmOzyZ_cILmF6rz2T7u3HSHEOVSFfL4nK5fXK1sXSRXgrsGv4vq3O44uj8U0qd607h71nuEvh_87KwPQ9wb1ck_sJIE_JsWn9qKs4Cx6r-zCWQ_VsNm67U3G2N9RrqzP0ScBOpdmKv2OVzcnSe7BwvtjGmU7DLtAlPETBzijAPaUon4Dst-4txLXScLUNT_vCLqiD2ppfWHnouUv_eLv-6p9cTd-DGIk5GtxBxAc8d62kjliCSsyJYudhJSXrJFGr6WKy_TkjVEp9v_xKEFxZk_QrBwhVnPPlrPBKxuuUa1M_JJBR-A30bCU",
-          apiKey: "wsCbB83fPmD4apvZRi5D4s95U20pEiOc",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+          apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify({
           calculation_type_iso: "AZ_DIMENSION_IU",
@@ -680,6 +716,11 @@ export default function SystemConfigForm() {
       alert("Error al guardar las opciones de cálculo.")
     }
   }
+
+  const handleClick = () => {
+    generarPresupuesto();
+    descargarPresupuestoPDF();
+  };
 
   const [brands, setBrands] = useState<{ id: number; name: string; iso_brand: string }[]>([])
 
@@ -1689,7 +1730,7 @@ export default function SystemConfigForm() {
       <div className="flex justify-end">
         <Button
           className="bg-[#007297] hover:bg-[#005a73] text-white px-8"
-          onClick={generarPresupuesto}
+          onClick={handleClick}
           disabled={isGeneratingQuote}
         >
           {isGeneratingQuote ? (

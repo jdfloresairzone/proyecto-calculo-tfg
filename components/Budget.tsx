@@ -36,19 +36,18 @@ export default function Budget() {
     },
   ]
 
-  const navItems: { name: string; icon: IconData; active: boolean }[] = [
-    { name: "Presupuestos", icon: IconData.quotes, active: true },
-    { name: "Pedidos", icon: IconData.returns, active: false },
-    { name: "Garantías", icon: IconData.warranties, active: false },
-    { name: "Asistencias", icon: IconData.technicalSupport, active: false },
-    { name: "Facturas", icon: IconData.invoices, active: false },
-    { name: "Albaranes", icon: IconData.deliveryNotes, active: false },
-    { name: "Precios", icon: IconData.invoices, active: false },
-    { name: "Consultas", icon: IconData.tickets, active: false },
-  ]
+  const navItems: { name: string; icon: IconData; href: string; active: boolean }[] = [
+    { name: "Presupuestos", icon: IconData.quotes, href: "/presupuestos", active: true },
+    { name: "Pedidos", icon: IconData.returns, href: "/pedidos", active: false },
+    { name: "Garantías", icon: IconData.warranties, href: "/garantias", active: false },
+    { name: "Asistencias", icon: IconData.technicalSupport, href: "/asistencias", active: false },
+    { name: "Facturas", icon: IconData.invoices, href: "/facturas", active: false },
+    { name: "Albaranes", icon: IconData.deliveryNotes, href: "/albaranes", active: false },
+    { name: "Precios", icon: IconData.invoices, href: "/precios", active: false },
+    { name: "Consultas", icon: IconData.tickets, href: "/consultas", active: false },
+  ];
 
-  
-const budgets = [
+  const budgets = [
     {
       id: "QAC25-007501",
       reference: "TEST",
@@ -138,26 +137,28 @@ const budgets = [
       <div className="bg-white border-b">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16 space-x-8">
-            <h1 className="text-2xl md:text-3xl font-medium text-[#007297] pr-18">Mi área</h1>
-
+            <Link href="/">
+              <h1 className="text-2xl md:text-3xl font-medium text-[#007297] pr-18 cursor-pointer">Mi área</h1>
+            </Link>
             <div className="flex space-x-5 overflow-x-auto items-center">
               {navItems.map((item, index) => (
-                <button
-                  key={index}
-                  className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-normal text-base md:text-lg whitespace-nowrap ${
-                    item.active
+                <Link href={item.href} key={index}>
+                  <div
+                    className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-normal text-base md:text-lg whitespace-nowrap cursor-pointer ${item.active
                       ? "border-[#007297] text-[#007297]"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                  }`}
-                >
-                  <Icon name={item.icon} size={25} />
-                  <span>{item.name}</span>
-                </button>
+                      }`}
+                  >
+                    <Icon name={item.icon} size={25} />
+                    <span>{item.name}</span>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
         </div>
       </div>
+
 
       {/* Main Content */}
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -212,7 +213,7 @@ const budgets = [
           </div>
         </div>
 
-       {/* Budgets Section */}
+        {/* Budgets Section */}
         <div className="mb-8 ">
           <div className="flex items-right justify-between mb-6 border-b">
             <h2 className="text-2xl md:text-3xl font-normal text-[#007297] mb-2">Presupuestos</h2>
@@ -260,19 +261,18 @@ const budgets = [
               </TableHeader>
               <TableBody>
                 {budgets.map((budget) => (
-                    <TableRow key={budget.id} className="border-b border-gray-200">
+                  <TableRow key={budget.id} className="border-b border-gray-200">
                     <TableCell className="font-medium">{budget.id}</TableCell>
                     <TableCell>{budget.reference}</TableCell>
                     <TableCell>{budget.date}</TableCell>
                     <TableCell>
                       <span
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          budget.status === "Pendiente"
-                            ? "bg-blue-100 text-blue-800"
-                            : budget.status === "Bloqueado"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-green-100 text-green-800"
-                        }`}
+                        className={`px-3 py-1 rounded-full text-sm ${budget.status === "Pendiente"
+                          ? "bg-blue-100 text-blue-800"
+                          : budget.status === "Bloqueado"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-green-100 text-green-800"
+                          }`}
                       >
                         {budget.status}
                       </span>
