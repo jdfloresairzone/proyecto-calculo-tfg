@@ -12,7 +12,7 @@ export interface System {
   }
   iumodel: Iumodel
   zones: Zone[]
-  return_configuration: any 
+  return_configuration: ReturnConfiguration
   warning: string | null
   include_largueros: boolean
   include_energy_usage_meter: boolean
@@ -33,15 +33,15 @@ export interface Iumodel {
   reference: string
   size: string
   heat_power_kw: number | null
-  cold_power_kw: string
-  maximum_flow_m3h: string
+  cold_power_kw: number
+  maximum_flow_m3h: number
   metric_system_iso: string
 }
 
 export interface Zone {
   name: string
   height: number
-  area: string
+  area: number
   climatisation_type_iso: string
   interface_iso: string
   color_iso: string
@@ -59,15 +59,15 @@ export interface Zone {
   radiators_quantity: number | null
   dumper_configuration: DumperConfiguration
   diffusion_configuration: DiffusionConfiguration
-  return_configuration: ReturnConfiguration
-  iumodels: any[] 
+  return_configuration: null
+  iumodels: any[]
   diffusion_type_iso: string
   flow: number | null
 }
 
 export interface DumperConfiguration {
   reduction: number
-  flow: string
+  flow: number
   duct_speed: number
   dumper_iso: string
   quantity: number
@@ -80,12 +80,9 @@ export interface DiffusionConfiguration {
     product_iso: string
     diffusion_group_iso: string
   }
-  return: {
-    product_iso: string
-    diffusion_group_iso: string
-  }
+  return: null
   max_height: number
-  flow: string
+  flow: number
   output_speed: number
   color_iso: string
   fixing_type_iso: string
@@ -94,8 +91,8 @@ export interface DiffusionConfiguration {
   warning: string
   quantity: number
   quantity_return: number
-  real_height: number
-  real_width: number
+  real_height: string
+  real_width: string
 }
 
 export interface ReturnConfiguration {
@@ -104,12 +101,13 @@ export interface ReturnConfiguration {
     diffusion_group_iso: string
   }
   max_height: number
-  flow: string
+  flow: number
   output_speed: number
   color_iso: string
   fixing_type_iso: string
   regulation_iso: string
   plenum_option_iso: boolean
+  warning: string
   real_height: number
   real_width: number
 }

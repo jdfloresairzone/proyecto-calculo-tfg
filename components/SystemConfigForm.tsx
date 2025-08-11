@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Info, Plus, Trash2, Loader2 } from "lucide-react"
 import type { Zone as QuoteZone, System as QuoteSystem } from "@/app/types/quote"
 
-type UIZone = QuoteZone & { id: string } // Añadimos id localmente para manejar en frontend
+type UIZone = QuoteZone & { id: number } // Añadimos id localmente para manejar en frontend
 type UISystem = Omit<QuoteSystem, "zones"> & { zones: UIZone[] }
 
 export default function SystemConfigForm() {
@@ -76,14 +76,14 @@ export default function SystemConfigForm() {
 
   // Current system being edited
   const [currentSystem, setCurrentSystem] = useState<UISystem>({
-    motorized_plenum: "",
+    motorized_plenum: "AZC25DAIST07S3",
     name: "Sistema 1",
     duct_type_iso: "CT_FX",
     bypass: { az_iso: "BY_NONE" },
     iumodel: {
       az_range: "07",
       brand_name: "Daikin",
-      dampers: 3,
+      dampers: 2,
       iso_2: "DA",
       iso_3: "DAI",
       iumodel_name: "ADEA50A",
@@ -91,23 +91,23 @@ export default function SystemConfigForm() {
       reference: "AZC25DAIST07S3",
       size: "S",
       heat_power_kw: null,
-      cold_power_kw: "9.50",
-      maximum_flow_m3h: "1740.00",
+      cold_power_kw: 30,
+      maximum_flow_m3h: 440,
       metric_system_iso: "INTERNATIONAL_METRIC_SYSTEM",
     },
     zones: [
       {
-        id: "1",
+        id: 1,
         name: "Zona 1",
-        height: 2.8,
-        area: "20",
+        height: 2.5,
+        area: 20,
         climatisation_type_iso: "CLT_A",
         interface_iso: "TTO_TYPE_BLUEFACE",
         color_iso: "TTO_COLOR_WHITE",
         connection_iso: "CONNETION_TYPE_C",
         thermostat_iso: "AZCE6BLUEZEROCB",
         ratio: 100,
-        demanded_power: null,
+        demanded_power: 2,
         quote_diffusion_elements_quantity: 1,
         quote_return_elements_quantity: 1,
         zonified: 1,
@@ -118,19 +118,19 @@ export default function SystemConfigForm() {
         radiators_quantity: null,
         dumper_configuration: {
           reduction: 0,
-          flow: "580.00",
+          flow: 146.67,
           duct_speed: 5.1,
           dumper_iso: "CPCC",
           quantity: 1,
-          dumper_dimension_id: null,
+          dumper_dimension_id: 5,
           warning: "",
         },
         diffusion_configuration: {
           impulsion: { product_iso: "RDHV", diffusion_group_iso: "AIRQ" },
-          return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
+          return: null,
           max_height: 150,
-          flow: "580.00",
-          output_speed: 2.3,
+          flow: 146.67,
+          output_speed: 2.5,
           color_iso: "DIFUSSION_COLOR_B",
           fixing_type_iso: "DIFUSSION_FIXING_C",
           regulation_iso: "TYPE_REG_KO",
@@ -138,37 +138,26 @@ export default function SystemConfigForm() {
           warning: "",
           quantity: 1,
           quantity_return: 1,
-          real_height: 200,
-          real_width: 600,
+          real_height: "150",
+          real_width: "200"
         },
-        return_configuration: {
-          return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
-          max_height: 150,
-          flow: "580.00",
-          output_speed: 2.3,
-          color_iso: "DIFUSSION_COLOR_B",
-          fixing_type_iso: "DIFUSSION_FIXING_C",
-          regulation_iso: "TYPE_REG_KO",
-          plenum_option_iso: true,
-          real_height: 200,
-          real_width: 600,
-        },
+        return_configuration: null,
         iumodels: [],
         diffusion_type_iso: "DT_CG",
         flow: null,
       },
       {
-        id: "2",
+        id: 2,
         name: "Zona 2",
-        height: 2.8,
-        area: "20",
+        height: 2.5,
+        area: 20,
         climatisation_type_iso: "CLT_A",
-        interface_iso: "TTO_TYPE_BLUEFACE",
+        interface_iso: "TTO_TYPE_THINK",
         color_iso: "TTO_COLOR_WHITE",
         connection_iso: "CONNETION_TYPE_R",
-        thermostat_iso: "AZCE6BLUEZEROCB",
+        thermostat_iso: "AZCE6THINKRB",
         ratio: 100,
-        demanded_power: null,
+        demanded_power: 2,
         quote_diffusion_elements_quantity: 1,
         quote_return_elements_quantity: 1,
         zonified: 1,
@@ -179,8 +168,8 @@ export default function SystemConfigForm() {
         radiators_quantity: null,
         dumper_configuration: {
           reduction: 0,
-          flow: "580.00",
-          duct_speed: 5.1,
+          flow: 146.67,
+          duct_speed: 1.3,
           dumper_iso: "CPCC",
           quantity: 1,
           dumper_dimension_id: null,
@@ -188,10 +177,10 @@ export default function SystemConfigForm() {
         },
         diffusion_configuration: {
           impulsion: { product_iso: "RDHV", diffusion_group_iso: "AIRQ" },
-          return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
+          return: null,
           max_height: 150,
-          flow: "580.00",
-          output_speed: 2.3,
+          flow: 146.67,
+          output_speed: 2.5,
           color_iso: "DIFUSSION_COLOR_B",
           fixing_type_iso: "DIFUSSION_FIXING_C",
           regulation_iso: "TYPE_REG_KO",
@@ -199,33 +188,37 @@ export default function SystemConfigForm() {
           warning: "",
           quantity: 1,
           quantity_return: 1,
-          real_height: 200,
-          real_width: 600,
+          real_height: "150",
+          real_width: "200"
         },
-        return_configuration: {
-          return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
-          max_height: 150,
-          flow: "580.00",
-          output_speed: 2.3,
-          color_iso: "DIFUSSION_COLOR_B",
-          fixing_type_iso: "DIFUSSION_FIXING_C",
-          regulation_iso: "TYPE_REG_KO",
-          plenum_option_iso: true,
-          real_height: 200,
-          real_width: 600,
-        },
+        return_configuration: null,
         iumodels: [],
         diffusion_type_iso: "DT_CG",
         flow: null,
       },
     ],
-    return_configuration: null,
-    warning: null,
+    return_configuration: {
+      return: {
+        product_iso: "RRFR",
+        diffusion_group_iso: "AIRQ"
+      },
+      max_height: 400,
+      flow: 440,
+      output_speed: 0.5,
+      color_iso: "DIFUSSION_COLOR_B",
+      fixing_type_iso: "DIFUSSION_FIXING_T",
+      regulation_iso: "TYPE_REG_KO",
+      plenum_option_iso: false,
+      warning: "<p>Velocidad en ducto muy baja en <strong>{zone}</strong>.</p><p>Seleccione una reducci^ón o verifique con el n^úmero de compuertas disponibles del Plenum, si es posible eliminar un elemento de difusi^ón en la zona con velocidad baja.</p>",
+      real_height: 400,
+      real_width: 800
+    },
+    warning: "",
     include_largueros: true,
-    include_energy_usage_meter: true,
+    include_energy_usage_meter: false,
     include_dehumidifier: false,
     include_return_plenum: false,
-    include_mixing_box: true,
+    include_mixing_box: false,
     include_thermostat: true,
   })
 
@@ -233,17 +226,17 @@ export default function SystemConfigForm() {
 
   const addZone = () => {
     const newZone: UIZone = {
-      id: Date.now().toString(),
+      id: currentSystem.zones.length + 1,
       name: `Zona ${currentSystem.zones.length + 1}`,
       height: 2.5,
-      area: "20",
+      area: 20,
       climatisation_type_iso: "CLT_A",
       interface_iso: "TTO_TYPE_BLUEFACE",
       color_iso: "TTO_COLOR_WHITE",
       connection_iso: "CONNETION_TYPE_C",
       thermostat_iso: "AZCE6BLUEZEROCB",
       ratio: 100,
-      demanded_power: null,
+      demanded_power: 2,
       quote_diffusion_elements_quantity: 1,
       quote_return_elements_quantity: 1,
       zonified: 1,
@@ -254,19 +247,19 @@ export default function SystemConfigForm() {
       radiators_quantity: null,
       dumper_configuration: {
         reduction: 0,
-        flow: "580.00",
+        flow: 146.67,
         duct_speed: 5.1,
         dumper_iso: "CPCC",
         quantity: 1,
-        dumper_dimension_id: null,
+        dumper_dimension_id: 5,
         warning: "",
       },
       diffusion_configuration: {
         impulsion: { product_iso: "RDHV", diffusion_group_iso: "AIRQ" },
-        return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
+        return: null,
         max_height: 150,
-        flow: "580.00",
-        output_speed: 2.3,
+        flow: 146.67,
+        output_speed: 2.5,
         color_iso: "DIFUSSION_COLOR_B",
         fixing_type_iso: "DIFUSSION_FIXING_C",
         regulation_iso: "TYPE_REG_KO",
@@ -274,21 +267,10 @@ export default function SystemConfigForm() {
         warning: "",
         quantity: 1,
         quantity_return: 1,
-        real_height: 200,
-        real_width: 600,
+        real_height: "150",
+        real_width: "200"
       },
-      return_configuration: {
-        return: { product_iso: "RSDR", diffusion_group_iso: "AIRQ" },
-        max_height: 150,
-        flow: "580.00",
-        output_speed: 2.3,
-        color_iso: "DIFUSSION_COLOR_B",
-        fixing_type_iso: "DIFUSSION_FIXING_C",
-        regulation_iso: "TYPE_REG_KO",
-        plenum_option_iso: true,
-        real_height: 200,
-        real_width: 600,
-      },
+      return_configuration: null,
       iumodels: [],
       diffusion_type_iso: "DT_CG",
       flow: null,
@@ -297,34 +279,71 @@ export default function SystemConfigForm() {
     setCurrentSystem((prev) => ({
       ...prev,
       zones: [...prev.zones, newZone],
+      iumodel: {
+        ...prev.iumodel,
+        dampers: prev.iumodel.dampers + 1
+      }
     }))
   }
 
-  const removeZone = (zoneId: string) => {
+  const removeZone = (zoneId: number) => {
     if (currentSystem.zones.length > 2) {
       setCurrentSystem((prev) => ({
         ...prev,
         zones: prev.zones.filter((zone) => zone.id !== zoneId),
+        iumodel: {
+          ...prev.iumodel,
+          dampers: prev.iumodel.dampers - 1
+        }
       }))
     }
   }
 
-  const updateZone = (zoneId: string, field: keyof UIZone, value: any) => {
-    setCurrentSystem((prev) => ({
-      ...prev,
-      zones: prev.zones.map((zone) => (zone.id === zoneId ? { ...zone, [field]: value } : zone)),
-    }))
+
+  const updateZone = (zoneId: number, field: keyof UIZone, value: any) => {
+    setCurrentSystem((prev) => {
+      const updatedZones = prev.zones.map((zone) => {
+        if (zone.id === zoneId) {
+          if (field === "quote_diffusion_elements_quantity") {
+            return {
+              ...zone,
+              quote_diffusion_elements_quantity: Number(value),
+              quote_return_elements_quantity: Number(value),
+            }
+          }
+          return { ...zone, [field]: value }
+        }
+        return zone
+      })
+
+      // Ajustar dampers si cambia quote_diffusion_elements_quantity
+      let newDampers = prev.iumodel.dampers
+      if (field === "quote_diffusion_elements_quantity") {
+        const originalQuantity = prev.zones.find((z) => z.id === zoneId)?.quote_diffusion_elements_quantity || 1
+        const diff = Number(value) - originalQuantity
+        newDampers = newDampers + diff
+      }
+
+      return {
+        ...prev,
+        zones: updatedZones,
+        iumodel: {
+          ...prev.iumodel,
+          dampers: newDampers,
+        },
+      }
+    })
   }
 
   const updateZoneDiffusion = (
-    zoneId: string,
+    zoneId: number,
     field: keyof UIZone["diffusion_configuration"],
     value: any
   ) => {
     setCurrentSystem((prev) => ({
       ...prev,
       zones: prev.zones.map((zone) =>
-        zone.id === zoneId
+        zone.id == zoneId
           ? {
             ...zone,
             diffusion_configuration: {
@@ -337,9 +356,8 @@ export default function SystemConfigForm() {
     }))
   }
 
-
   const updateZoneDiffusionImpulsion = (
-    zoneId: string,
+    zoneId: number,
     field: keyof UIZone["diffusion_configuration"]["impulsion"],
     value: any
   ) => {
@@ -362,7 +380,6 @@ export default function SystemConfigForm() {
     }))
   }
 
-
   const updateSystem = (field: keyof UISystem, value: any) => {
     setCurrentSystem((prev) => ({
       ...prev,
@@ -380,9 +397,73 @@ export default function SystemConfigForm() {
     }))
   }
 
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && currentStep === 1) {
       setCurrentStep(2)
+    }
+  }
+
+  const generarCabecera = async () => {
+    try {
+      const response = await fetch("https://devapi.airzonecloud.com/msquotairzone.v1/quote-headers/7540", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+          "Content-Type": "application/json",
+          apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
+        },
+        body: JSON.stringify({
+          client_id: 7098,
+          agency_id: 14407,
+          name: clientReference,
+          description: "",
+          delivery_address_id: 9080,
+          quotation_type_iso: "PROJECT",
+          crm_opportunity_code: "",
+          crm_opportunity_name: "",
+        }),
+      })
+
+      const data = await response.json()
+    } catch (error) {
+      console.error("Error al actualizar cabecera:", error)
+      alert("Error al actualizar la cabecera del presupuesto.")
+    }
+  }
+
+  const OpcionesCalculo = async () => {
+    try {
+      const response = await fetch("https://devapi.airzonecloud.com/msquotairzone.v1/projects/7540/quote-calculation-options", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+          apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
+        },
+        body: JSON.stringify({
+          calculation_type_iso: "AZ_DIMENSION_IU",
+          element_iso: "AZ_SYSTEM_DIFFUSION",
+          return_type_iso: "AZ_COMMON_ZONE_RETURN",
+          system_speed: parseFloat(systemAirVelocity),
+          diffusion_speed: parseFloat(diffusionAirVelocity),
+          system_iso: "253_16",
+          ccp_included: false,
+          include_thermostat: true,
+          include_airq_sensor: false,
+          include_energy_usage_meter: false,
+          radiant_technology_iso: "AZ_RPT_NONE",
+          integration_technology_iso: "AZX6WSC5GER",
+          aerothermal_iumodel: null
+        })
+      })
+
+      const data = await response.json()
+    } catch (error) {
+      console.error("Error al actualizar opciones de cálculo:", error)
+      alert("Error al guardar las opciones de cálculo.")
     }
   }
 
@@ -416,7 +497,7 @@ export default function SystemConfigForm() {
       document.body.appendChild(link);
       link.click();
       link.remove();
-      window.URL.revokeObjectURL(url); 
+      window.URL.revokeObjectURL(url);
 
     } catch (error) {
       console.error("Error al generar el PDF:", error);
@@ -472,8 +553,8 @@ export default function SystemConfigForm() {
                   thermostat_iso: "AZCE6BLUEZEROCB",
                   ratio: 100,
                   demanded_power: 2,
-                  quote_diffusion_elements_quantity: 1,
-                  quote_return_elements_quantity: 1,
+                  quote_diffusion_elements_quantity: 2,
+                  quote_return_elements_quantity: 2,
                   zonified: 1,
                   radiant_type: null,
                   colectors: null,
@@ -564,58 +645,6 @@ export default function SystemConfigForm() {
                   iumodels: [],
                   diffusion_type_iso: "DT_CG",
                   flow: null
-                },
-                {
-                  name: "Zona 3",
-                  height: 2.5,
-                  area: 20,
-                  climatisation_type_iso: "CLT_A",
-                  interface_iso: "TTO_TYPE_BLUEFACE",
-                  color_iso: "TTO_COLOR_WHITE",
-                  connection_iso: "CONNETION_TYPE_C",
-                  thermostat_iso: "AZCE6BLUEZEROCB",
-                  ratio: 100,
-                  demanded_power: 2,
-                  quote_diffusion_elements_quantity: 1,
-                  quote_return_elements_quantity: 1,
-                  zonified: 1,
-                  radiant_type: null,
-                  colectors: null,
-                  include_thermostatic_valve: false,
-                  thermostatic_valve_quantity: null,
-                  radiators_quantity: null,
-                  dumper_configuration: {
-                    reduction: 0,
-                    flow: 146.67,
-                    duct_speed: 1.3,
-                    dumper_iso: "CPCC",
-                    quantity: 1,
-                    dumper_dimension_id: 5,
-                    warning: "<p>Velocidad en ducto muy baja en <strong>Zona 3</strong>.</p><p>Seleccione una reducci^ón o verifique con el n^úmero de compuertas disponibles del Plenum, si es posible eliminar un elemento de difusi^ón en la zona con velocidad baja.</p>"
-                  },
-                  diffusion_configuration: {
-                    impulsion: {
-                      product_iso: "RDHV",
-                      diffusion_group_iso: "AIRQ"
-                    },
-                    return: null,
-                    max_height: 150,
-                    flow: 146.67,
-                    output_speed: 2.5,
-                    color_iso: "DIFUSSION_COLOR_B",
-                    fixing_type_iso: "DIFUSSION_FIXING_C",
-                    regulation_iso: "TYPE_REG_KO",
-                    plenum_option_iso: true,
-                    warning: "",
-                    quantity: 1,
-                    quantity_return: 1,
-                    real_height: "150",
-                    real_width: "200"
-                  },
-                  return_configuration: null,
-                  iumodels: [],
-                  diffusion_type_iso: "DT_CG",
-                  flow: null
                 }
               ],
               return_configuration: {
@@ -646,7 +675,6 @@ export default function SystemConfigForm() {
           ]
         })
       })
-      const data = await response.json()
     } catch (error) {
       console.error("Error al generar el presupuesto:", error)
       alert("Error al generar el presupuesto.")
@@ -655,71 +683,9 @@ export default function SystemConfigForm() {
     }
   }
 
-  const generarCabecera = async () => {
-    try {
-      const response = await fetch("https://devapi.airzonecloud.com/msquotairzone.v1/quote-headers/7540", {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-          apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
-        },
-        body: JSON.stringify({
-          client_id: 7098,
-          agency_id: 14407,
-          name: clientReference,
-          description: "",
-          delivery_address_id: 9080,
-          quotation_type_iso: "PROJECT",
-          crm_opportunity_code: "",
-          crm_opportunity_name: "",
-        }),
-      })
-
-      const data = await response.json()
-    } catch (error) {
-      console.error("Error al actualizar cabecera:", error)
-      alert("Error al actualizar la cabecera del presupuesto.")
-    }
-  }
-
-  const OpcionesCalculo = async () => {
-    try {
-      const response = await fetch("https://devapi.airzonecloud.com/msquotairzone.v1/projects/7540/quote-calculation-options", {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-          apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
-        },
-        body: JSON.stringify({
-          calculation_type_iso: "AZ_DIMENSION_IU",
-          element_iso: "AZ_SYSTEM_DIFFUSION",
-          return_type_iso: "AZ_COMMON_ZONE_RETURN",
-          system_speed: 4,
-          diffusion_speed: 2.5,
-          system_iso: "253_16",
-          ccp_included: false,
-          include_thermostat: true,
-          include_airq_sensor: false,
-          include_energy_usage_meter: false,
-          radiant_technology_iso: "AZ_RPT_NONE",
-          integration_technology_iso: "AZX6WSC5GER",
-          aerothermal_iumodel: null
-        })
-      })
-
-      const data = await response.json()
-    } catch (error) {
-      console.error("Error al actualizar opciones de cálculo:", error)
-      alert("Error al guardar las opciones de cálculo.")
-    }
-  }
-
   const handleClick = () => {
-    generarPresupuesto();
-    descargarPresupuestoPDF();
+    //generarPresupuesto();
+    //descargarPresupuestoPDF();
   };
 
   const [brands, setBrands] = useState<{ id: number; name: string; iso_brand: string }[]>([])
@@ -747,7 +713,9 @@ export default function SystemConfigForm() {
     fetchBrands()
   }, [])
 
-
+  useEffect(() => {
+    console.log("🔹 currentSystem ha cambiado:", currentSystem)
+  }, [currentSystem])
 
 
   return (
@@ -842,7 +810,7 @@ export default function SystemConfigForm() {
               setReferenceError(false)
               setCurrentStep(2)
               scrollToNextCard(2)
-              generarCabecera()
+              //generarCabecera()
             }}
           >
             PROCEDER
@@ -971,7 +939,7 @@ export default function SystemConfigForm() {
               onClick={() => {
                 setCurrentStep(4)
                 scrollToNextCard(4)
-                OpcionesCalculo()
+                //OpcionesCalculo()
               }}
             >
               PROCEDER
@@ -1029,10 +997,6 @@ export default function SystemConfigForm() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-[#007297]">Zonas del Sistema (Mínimo 2 zonas)</h3>
-              <Button onClick={addZone} variant="outline" size="sm" className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                Añadir Zona
-              </Button>
             </div>
 
             {currentSystem.zones.map((zone) => (
@@ -1211,7 +1175,11 @@ export default function SystemConfigForm() {
 
                     <div className="space-y-2">
                       <Label className="text-blue-600">Número de elementos de difusión</Label>
-                      <Select value={String(zone.diffusion_configuration.quantity)}>
+                      <Select
+                        value={String(zone.quote_diffusion_elements_quantity)}
+                        onValueChange={(value) => updateZone(zone.id, "quote_diffusion_elements_quantity", value)}
+
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar numero" />
                         </SelectTrigger>
@@ -1230,6 +1198,11 @@ export default function SystemConfigForm() {
           </div>
 
           <div className="flex justify-end">
+            <Button onClick={addZone} variant="outline" className="flex items-center gap-2 px-8 mr-4">
+              <Plus className="h-4 w-4" />
+              Añadir Zona
+            </Button>
+
             <Button
               className="bg-[#007297] hover:bg-[#005a73] px-8"
               onClick={() => {
@@ -1273,7 +1246,7 @@ export default function SystemConfigForm() {
               <div className="relative">
                 <Select
                   value={currentSystem.iumodel.brand_name}
-                  onValueChange={(value) => updateIumodel("brand_name", value)}
+                  onValueChange={(value) => updateIumodel("brand_name", "Daikin")}
                   disabled={currentStep < 5}
                 >
                   <SelectTrigger className="bg-gray-50 pr-10">
@@ -1557,24 +1530,17 @@ export default function SystemConfigForm() {
                 {/* Retorno */}
                 <div className="flex flex-col gap-1">
                   <Select
-                    value={zone.diffusion_configuration.return.product_iso}
+                    value={currentSystem.return_configuration.return.product_iso}
                     onValueChange={(value) =>
                       setCurrentSystem((prev) => ({
                         ...prev,
-                        zones: prev.zones.map((z) =>
-                          z.id === zone.id
-                            ? {
-                              ...z,
-                              diffusion_configuration: {
-                                ...z.diffusion_configuration,
-                                return: {
-                                  ...z.diffusion_configuration.return,
-                                  product_iso: value,
-                                },
-                              },
-                            }
-                            : z
-                        ),
+                        return_configuration: {
+                          ...prev.return_configuration,
+                          return: {
+                            ...prev.return_configuration.return,
+                            product_iso: value,
+                          },
+                        },
                       }))
                     }
                   >
