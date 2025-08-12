@@ -1,10 +1,50 @@
+"use client"
+
 import { Search, User, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 
 export default function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token")
+    setIsLoggedIn(!!token)
+  }, [pathname]) // cada vez que cambia la página, se vuelve a comprobar
+
+  const handleLogout = async () => {
+    const token = localStorage.getItem("access_token")
+
+    if (token) {
+      try {
+        await fetch("https://devapi.airzonecloud.com/loginservice.v1/auth/logout", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            apikey: "kBAWXtE8GEVAUtBRk0LoXRKZ6wYh5TkW",
+            "app-locale": "es",
+          },
+        })
+      } catch (error) {
+        console.error("Error cerrando sesión:", error)
+      }
+    }
+
+    localStorage.removeItem("access_token")
+    setIsLoggedIn(false)
+    window.location.reload()
+  }
+
+
   return (
     <header className="w-full bg-white border-b border-gray-200">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-4 lg:px-2 h-16 flex items-center justify-between">
@@ -93,13 +133,24 @@ export default function Header() {
             <User className="w-5 h-5 text-gray-600" />
           </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-sm font-medium border-gray-300 text-gray-700 hover:bg-gray-50"
-          >
-            INICIAR SESIÓN
-          </Button>
+          {isLoggedIn ? (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-sm font-medium border-gray-300 text-gray-700 hover:bg-gray-50"
+              onClick={handleLogout}
+            >
+              CERRAR SESIÓN
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-sm font-medium border-gray-300 text-gray-700 hover:bg-gray-50"
+            >
+              INICIAR SESIÓN
+            </Button>
+          )}
         </div>
       </div>
     </header>
