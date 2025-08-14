@@ -7,7 +7,7 @@ export const generarCabecera = async (clientReference: string) => {
       method: "PUT",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         "Content-Type": "application/json",
         apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
       },
@@ -39,7 +39,7 @@ export const OpcionesCalculo = async (systemAirVelocity: string, diffusionAirVel
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
         },
         body: JSON.stringify({
@@ -75,7 +75,7 @@ export const descargarPresupuestoPDF = async () => {
         method: "GET",
         headers: {
           Accept: "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "application/json",
           apikey: `${process.env.NEXT_PUBLIC_API_KEY}`,
           "app-locale": "es",
@@ -111,7 +111,7 @@ export const generarPresupuesto = async (setIsGeneratingQuote: (loading: boolean
       method: "POST",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         "Content-Type": "application/json;charset=UTF-8",
         apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
       },
