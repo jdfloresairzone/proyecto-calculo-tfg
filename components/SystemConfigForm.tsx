@@ -256,7 +256,7 @@ export default function SystemConfigForm() {
 
   const handleClick = () => {
     setIsGeneratingQuote(true)
-    generarPresupuesto(setIsGeneratingQuote)
+    generarPresupuesto(currentSystem, setIsGeneratingQuote)
     descargarPresupuestoPDF()
   }
 

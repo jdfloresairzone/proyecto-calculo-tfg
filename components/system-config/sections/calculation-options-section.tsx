@@ -91,7 +91,6 @@ export function CalculationOptionsSection({
                 value={systemAirVelocity}
                 onChange={(e) => setSystemAirVelocity(e.target.value)}
                 className="bg-gray-50"
-                disabled={disabled}
               />
               <span className="text-sm text-gray-500">m/s (Recomendación entre 3.5 y 5 m/s)</span>
             </div>
@@ -104,7 +103,6 @@ export function CalculationOptionsSection({
                 value={diffusionAirVelocity}
                 onChange={(e) => setDiffusionAirVelocity(e.target.value)}
                 className="bg-gray-50"
-                disabled={disabled}
               />
               <span className="text-sm text-gray-500">m/s (Recomendación entre 2.5 y 3.5 m/s)</span>
             </div>

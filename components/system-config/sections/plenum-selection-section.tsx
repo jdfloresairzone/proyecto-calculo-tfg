@@ -39,7 +39,6 @@ export function PlenumSelectionSection({
             <Select
               value={currentSystem.iumodel.plenum_type}
               onValueChange={(value) => updateIumodel("plenum_type", value)}
-              disabled={disabled}
             >
               <SelectTrigger className="bg-gray-50">
                 <SelectValue />
@@ -56,9 +55,8 @@ export function PlenumSelectionSection({
             <Select
               value={String(currentSystem.iumodel.dampers)}
               onValueChange={(value) => updateIumodel("dampers", Number(value))}
-              disabled={disabled}
             >
-              <SelectTrigger className="bg-blue-50 border-blue-200">
+              <SelectTrigger className="bg-gray-50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

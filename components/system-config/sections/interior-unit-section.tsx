@@ -46,7 +46,6 @@ export function InteriorUnitSection({
               <Select
                 value={currentSystem.iumodel.brand_name}
                 onValueChange={(value) => updateIumodel("brand_name", value)}
-                disabled={disabled}
               >
                 <SelectTrigger className="bg-gray-50 pr-10">
                   <SelectValue placeholder="Seleccionar marca" />
@@ -68,7 +67,6 @@ export function InteriorUnitSection({
               <Select
                 value={currentSystem.iumodel.iumodel_name}
                 onValueChange={(value) => updateIumodel("iumodel_name", value)}
-                disabled={disabled}
               >
                 <SelectTrigger className="bg-gray-50 pr-10">
                   <SelectValue placeholder="Seleccionar modelo" />

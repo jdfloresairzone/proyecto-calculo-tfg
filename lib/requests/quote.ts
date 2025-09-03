@@ -1,6 +1,6 @@
 "use client"
+import { type UISystem } from "@/components/types/system-config"
 
-// Removed invalid import and made functions exportable
 export const generarCabecera = async (clientReference: string) => {
   try {
     const response = await fetch("https://devapi.airzonecloud.com/msquotairzone.v1/quote-headers/7540", {
@@ -70,7 +70,7 @@ export const OpcionesCalculo = async (systemAirVelocity: string, diffusionAirVel
 export const descargarPresupuestoPDF = async () => {
   try {
     const response = await fetch(
-      `https://devapi.airzonecloud.com/msquotairzone.v1/quote-headers/254136/pdf/pvp?discount=0&memory=true`,
+      `https://devapi.airzonecloud.com/msquotairzone.v1/quote-headers/254136/pdf-v2`,
       {
         method: "GET",
         headers: {
@@ -104,7 +104,7 @@ export const descargarPresupuestoPDF = async () => {
   }
 }
 
-export const generarPresupuesto = async (setIsGeneratingQuote: (loading: boolean) => void) => {
+export const generarPresupuesto = async (  currentSystem: UISystem, setIsGeneratingQuote: (loading: boolean) => void) => {
   setIsGeneratingQuote(true)
   try {
     const response = await fetch("https://devapi.airzonecloud.com/msquotairzone.v1/projects/quote-systems", {
@@ -115,168 +115,10 @@ export const generarPresupuesto = async (setIsGeneratingQuote: (loading: boolean
         "Content-Type": "application/json;charset=UTF-8",
         apiKey: `${process.env.NEXT_PUBLIC_API_KEY}`,
       },
-      body: JSON.stringify({
-        quote_header_id: 7540,
-        systems: [
-          {
-            motorized_plenum: "AZC25DAIST07S3",
-            name: "Sistema 1",
-            duct_type_iso: "CT_FX",
-            bypass: {
-              az_iso: "BY_NONE",
-            },
-            iumodel: {
-              az_range: "07",
-              brand_name: "Daikin",
-              dampers: 3,
-              iso_2: "DA",
-              iso_3: "DAI",
-              iumodel_name: "ADEA50A",
-              plenum_type: "ST",
-              reference: "AZC25DAIST07S3",
-              size: "S",
-              heat_power_kw: null,
-              cold_power_kw: 30,
-              maximum_flow_m3h: 440,
-              metric_system_iso: "INTERNATIONAL_METRIC_SYSTEM",
-            },
-            zones: [
-              {
-                name: "Zona 1",
-                height: 2.5,
-                area: 20,
-                climatisation_type_iso: "CLT_A",
-                interface_iso: "TTO_TYPE_BLUEFACE",
-                color_iso: "TTO_COLOR_WHITE",
-                connection_iso: "CONNETION_TYPE_C",
-                thermostat_iso: "AZCE6BLUEZEROCB",
-                ratio: 100,
-                demanded_power: 2,
-                quote_diffusion_elements_quantity: 2,
-                quote_return_elements_quantity: 2,
-                zonified: 1,
-                radiant_type: null,
-                colectors: null,
-                include_thermostatic_valve: false,
-                thermostatic_valve_quantity: null,
-                radiators_quantity: null,
-                dumper_configuration: {
-                  reduction: 0,
-                  flow: 146.67,
-                  duct_speed: 1.3,
-                  dumper_iso: "CPCC",
-                  quantity: 1,
-                  dumper_dimension_id: 5,
-                  warning:
-                    "<p>Velocidad en ducto muy baja en <strong>Zona 1</strong>.</p><p>Seleccione una reducci^ón o verifique con el n^úmero de compuertas disponibles del Plenum, si es posible eliminar un elemento de difusi^ón en la zona con velocidad baja.</p>",
-                },
-                diffusion_configuration: {
-                  impulsion: {
-                    product_iso: "RDHV",
-                    diffusion_group_iso: "AIRQ",
-                  },
-                  return: null,
-                  max_height: 150,
-                  flow: 146.67,
-                  output_speed: 2.5,
-                  color_iso: "DIFUSSION_COLOR_B",
-                  fixing_type_iso: "DIFUSSION_FIXING_C",
-                  regulation_iso: "TYPE_REG_KO",
-                  plenum_option_iso: true,
-                  warning: "",
-                  quantity: 1,
-                  quantity_return: 1,
-                  real_height: "150",
-                  real_width: "200",
-                },
-                return_configuration: null,
-                iumodels: [],
-                diffusion_type_iso: "DT_CG",
-                flow: null,
-              },
-              {
-                name: "Zona 2",
-                height: 2.5,
-                area: 20,
-                climatisation_type_iso: "CLT_A",
-                interface_iso: "TTO_TYPE_THINK",
-                color_iso: "TTO_COLOR_WHITE",
-                connection_iso: "CONNETION_TYPE_R",
-                thermostat_iso: "AZCE6THINKRB",
-                ratio: 100,
-                demanded_power: 2,
-                quote_diffusion_elements_quantity: 1,
-                quote_return_elements_quantity: 1,
-                zonified: 1,
-                radiant_type: null,
-                colectors: null,
-                include_thermostatic_valve: false,
-                thermostatic_valve_quantity: null,
-                radiators_quantity: null,
-                dumper_configuration: {
-                  reduction: 0,
-                  flow: 146.67,
-                  duct_speed: 1.3,
-                  dumper_iso: "CPCC",
-                  quantity: 1,
-                  dumper_dimension_id: 5,
-                  warning:
-                    "<p>Velocidad en ducto muy baja en <strong>Zona 2</strong>.</p><p>Seleccione una reducci^ón o verifique con el n^úmero de compuertas disponibles del Plenum, si es posible eliminar un elemento de difusi^ón en la zona con velocidad baja.</p>",
-                },
-                diffusion_configuration: {
-                  impulsion: {
-                    product_iso: "RDHV",
-                    diffusion_group_iso: "AIRQ",
-                  },
-                  return: null,
-                  max_height: 150,
-                  flow: 146.67,
-                  output_speed: 2.5,
-                  color_iso: "DIFUSSION_COLOR_B",
-                  fixing_type_iso: "DIFUSSION_FIXING_C",
-                  regulation_iso: "TYPE_REG_KO",
-                  plenum_option_iso: true,
-                  warning: "",
-                  quantity: 1,
-                  quantity_return: 1,
-                  real_height: "150",
-                  real_width: "200",
-                },
-                return_configuration: null,
-                iumodels: [],
-                diffusion_type_iso: "DT_CG",
-                flow: null,
-              },
-            ],
-            return_configuration: {
-              return: {
-                product_iso: "RRFR",
-                diffusion_group_iso: "AIRQ",
-              },
-              max_height: 400,
-              flow: 440,
-              output_speed: 0.5,
-              color_iso: "DIFUSSION_COLOR_B",
-              fixing_type_iso: "DIFUSSION_FIXING_T",
-              regulation_iso: "TYPE_REG_KO",
-              plenum_option_iso: false,
-              warning:
-                "<p>Velocidad en ducto muy baja en <strong>{zone}</strong>.</p><p>Seleccione una reducci^ón o verifique con el n^úmero de compuertas disponibles del Plenum, si es posible eliminar un elemento de difusi^ón en la zona con velocidad baja.</p>",
-              real_height: 400,
-              real_width: 800,
-            },
-            warning:
-              "Potencia de la Unidad Interior. <br>Se recomienda la selecci^ón de una unidad con potencia comprendida entre 70^% y 130^% de la potencia de demanda total de la instalaci^ón.",
-            include_largueros: true,
-            include_airq_sensor: false,
-            include_energy_usage_meter: false,
-            include_dehumidifier: false,
-            include_return_plenum: false,
-            include_mixing_box: false,
-            include_thermostat: true,
-          },
-        ],
-      }),
+        body: JSON.stringify({
+          quote_header_id: 7540,
+          systems: [currentSystem], 
+        }),
     })
   } catch (error) {
     console.error("Error al generar el presupuesto:", error)
@@ -286,7 +128,6 @@ export const generarPresupuesto = async (setIsGeneratingQuote: (loading: boolean
   }
 }
 
-// Added back getBrands function that was in the original file
 export async function getBrands(): Promise<{ id: number; name: string; iso_brand: string }[]> {
   const res = await fetch("https://devapi.airzonecloud.com/msproduct.pv1/compatibilities/brands", {
     method: "GET",
